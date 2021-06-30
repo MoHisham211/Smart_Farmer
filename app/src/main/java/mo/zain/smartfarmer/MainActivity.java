@@ -3,30 +3,27 @@ package mo.zain.smartfarmer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
-import com.google.firebase.auth.FirebaseAuth;
+import android.os.Bundle;
 
-import mo.zain.smartfarmer.authentication.IntroActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    Button log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        log=findViewById(R.id.log);
-        log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, IntroActivity.class));
-                finish();
-            }
-        });
+
+        NavController navController = Navigation.findNavController(this, R.id.fragment);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bottom);
+        NavigationUI.setupWithNavController(bottomNavigationView,navController);
+
     }
 }

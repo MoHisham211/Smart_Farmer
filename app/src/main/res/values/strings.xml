@@ -2,5 +2,6 @@
     <string name="app_name">Smart Farmer</string>
     <string name="facebook_app_id">893753557841134</string>
     <string name="fb_login_protocol_scheme">fb893753557841134</string>
+    <string name="hello_blank_fragment">hello</string>
 
 </resources>
