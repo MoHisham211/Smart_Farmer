@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".authentication.IntroActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/introoooo1"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_for_intro_screen"/>
+    <View
+        android:id="@+id/viewSupporter"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imageFacebook"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="25dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_facebook"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/viewSupporter"
+        android:layout_marginRight="6dp" />
+    <ImageView
+        android:id="@+id/imageGoogle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="25dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_google"
+        android:padding="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/viewSupporter"
+        android:layout_marginRight="6dp" />
+    <TextView
+        android:id="@+id/textSignInWith"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Or sign in with"
+        android:fontFamily="@font/ubuntu_regular"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@id/imageFacebook"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/background_for_sign_up_button"
+        android:text="Sign Up"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@id/textSignInWith"/>
+    <Button
+        android:id="@+id/btnSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/background_for_sign_in_button"
+        android:text="Sign In"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/btnSignUp"/>
+    <TextView
+        android:id="@+id/textTagLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="15dp"
+        android:text="With millions of users all over the world, we gives you the ability to connect with people no matter where you are."
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnSignIn" />
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="6dp"
+        android:text="Control now\nin your farm"
+        android:fontFamily="@font/ubuntu_bold"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/textTagLine"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
