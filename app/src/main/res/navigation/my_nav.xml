@@ -6,22 +6,22 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="mo.zain.smartfarmer.HomeFragment"
+        android:name="mo.zain.smartfarmer.ui.HomeFragment"
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/readFragment"
-        android:name="mo.zain.smartfarmer.ReadFragment"
+        android:name="mo.zain.smartfarmer.ui.ReadFragment"
         android:label="ReadFragment" />
     <fragment
         android:id="@+id/companyFragment"
-        android:name="mo.zain.smartfarmer.CompanyFragment"
+        android:name="mo.zain.smartfarmer.ui.CompanyFragment"
         android:label="CompanyFragment" />
     <fragment
         android:id="@+id/priceFragment"
-        android:name="mo.zain.smartfarmer.PriceFragment"
+        android:name="mo.zain.smartfarmer.ui.PriceFragment"
         android:label="PriceFragment" />
     <fragment
         android:id="@+id/controlFragment"
-        android:name="mo.zain.smartfarmer.ControlFragment"
+        android:name="mo.zain.smartfarmer.ui.ControlFragment"
         android:label="ControlFragment" />
 </navigation>
