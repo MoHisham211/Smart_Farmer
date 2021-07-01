@@ -110,7 +110,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMoreOptions(holder.edit,post.getUid(),userId,post.getPostId(),post.getImage());
+                showMoreOptions(holder.edit,post.getUid(),userId,post.getPostId(),post.getImage(),post.getTitle(),post.getDescription());
             }
         });
         holder.love.setOnClickListener(new View.OnClickListener() {
@@ -142,11 +142,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         });
 
     }
-    void showMoreOptions(ImageView edit,String userID,String myid,String postId,String postImage)
+    void showMoreOptions(ImageView edit,String userID,String myid,String postId,String postImage,String title,String des)
     {
         PopupMenu popupMenu=new PopupMenu(mCtx,edit, Gravity.END);
 
         popupMenu.getMenu().add(Menu.NONE,0,0,"Delete");
+        popupMenu.getMenu().add(Menu.NONE,1,0,"Edit");
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -154,12 +155,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 if (id==0){
                     delete(postId,postImage);
                 }
+                if (id==1)
+                {
+                    EditAll(title,des,postImage);
+                }
 
                 return false;
             }
         });
         popupMenu.show();
     }
+
+    private void EditAll(String title, String des, String postImage) {
+
+    }
+
     void delete(String postId,String image){
         if (image.equals("noImage")){
                 deleteWithoutImage(postId);
