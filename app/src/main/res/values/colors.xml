@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorBackgroundLogin">#C6131313</color>
     <color name="colorDefaultNoteColor">#333333</color>
+    <color name="add">#8BC34A</color>
+    <color name="heart">#F44336</color>
 </resources>
