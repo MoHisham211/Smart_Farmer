@@ -200,7 +200,8 @@ public class HomeFragment extends Fragment {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             final String name = taskSnapshot.getMetadata().getName();
-                            Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                            Task<Uri> result = taskSnapshot.getMetadata().getReference()
+                                    .getDownloadUrl();
                             result.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -218,7 +219,10 @@ public class HomeFragment extends Fragment {
                         }
                     });
         } else if (!title.getText().toString().isEmpty()){
-            Post post=new Post(title.getText().toString(),description.getText().toString(),"noImage");
+            Post post=
+                    new Post(title.getText().toString()
+                            ,description.getText().toString()
+                            ,"noImage",firebaseUser.getUid(),"0");
             db.collection("Posts").
                     add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -276,7 +280,7 @@ public class HomeFragment extends Fragment {
         String titleT=title.getText().toString();
         String desT=description.getText().toString();
         String postPhoto=imgURL;
-        return new Post(titleT,desT,postPhoto);
+        return new Post(titleT,desT,postPhoto,firebaseUser.getUid(),"0");
     }
     private void loadPosts() {
 
@@ -288,7 +292,13 @@ public class HomeFragment extends Fragment {
                         if (value != null && !value.isEmpty()) {
                             for (QueryDocumentSnapshot doc : value) {
                                 Post post=doc.toObject(Post.class);
+                                post.setPostId(doc.getId());
                                 lists.add(post);
+//                                if (post.getUid().equals(firebaseUser.getUid()))
+//                                {
+//
+//                                    Toast.makeText(getContext(), ""+post.getUid(), Toast.LENGTH_SHORT).show();
+//                                }
                             }
                             adapter.notifyDataSetChanged();
                             progressBar.setVisibility(View.GONE);
