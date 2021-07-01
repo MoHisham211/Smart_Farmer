@@ -104,8 +104,8 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getContext());
-//        layoutManager.setReverseLayout(true);
-//        layoutManager.setStackFromEnd(true);
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         addPost.setOnClickListener(new View.OnClickListener() {
@@ -115,13 +115,13 @@ public class HomeFragment extends Fragment {
             }
         });
         loadInfo();
-        lists.clear();
         loadPosts();
         return view;
     }
 
     private void openBottomSheet()
     {
+        urlImage="";
         bottomSheetDialog=new BottomSheetDialog(
                 getContext(),R.style.BottomSheetDialog
         );
@@ -218,7 +218,7 @@ public class HomeFragment extends Fragment {
                         }
                     });
         } else if (!title.getText().toString().isEmpty()){
-            Post post=new Post(title.getText().toString(),description.getText().toString(),"");
+            Post post=new Post(title.getText().toString(),description.getText().toString(),"noImage");
             db.collection("Posts").
                     add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

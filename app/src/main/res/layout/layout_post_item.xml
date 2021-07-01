@@ -22,7 +22,6 @@
         android:fontFamily="@font/ubuntu_bold"
         android:textStyle="bold"/>
         <TextView
-            android:visibility="gone"
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +29,6 @@
             tools:text="Description of an post lab lab lab bal bal llllallalalla"
             android:fontFamily="@font/ubuntu_medium" />
         <ImageView
-            android:visibility="gone"
             tools:src="@drawable/ic_igallery_google"
             android:id="@+id/Image"
             android:layout_width="match_parent"

@@ -34,29 +34,55 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @NotNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        return new PostViewHolder(
-                LayoutInflater.from(mCtx).inflate(R.layout.layout_post_item, parent, false)
-        );
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_post_item, parent, false);
+//        v.setOnClickListener(this);
+        return new PostViewHolder(v);
+
+//        return new PostViewHolder(
+//                LayoutInflater.from(mCtx).inflate(R.layout.layout_post_item, parent, false)
+//        );
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PostAdapter.PostViewHolder holder, int position) {
+
         Post post = postList.get(position);
+
+//        if (post.getDescription().equals(""))
+//        {
+//            holder.des.setVisibility(View.GONE);
+//        }
+//        if (post.getImage().equals(""))
+//        {
+//            holder.imagePost.setVisibility(View.GONE);
+//        }
         holder.title
-                .setText(post.getTitle());
-        if (!post.getDescription().equals(""))
-        {
-            holder.des.setVisibility(View.VISIBLE);
-            holder.des
-                    .setText(post.getDescription());
-        }
-        if (!post.getImage().equals(""))
-        {
-            holder.imagePost.setVisibility(View.VISIBLE);
+                    .setText(post.getTitle());
+        holder.des
+                .setText(post.getDescription());
+
+        try {
             Glide.with(mCtx)
                     .load(post.getImage())
                     .into(holder.imagePost);
+        } catch (Exception ex) {
+
         }
+        if (post.getImage().equals("noImage")) {
+            holder.imagePost.setVisibility(View.GONE);
+        } else {
+            holder.imagePost.setVisibility(View.VISIBLE);
+            try {
+                Glide.with(mCtx)
+                        .load(post.getImage())
+                        .into(holder.imagePost);
+            } catch (Exception ex) {
+
+            }
+        }
+
+
     }
 
     @Override
