@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-        adapter = new PostAdapter(getContext(), lists);
+        adapter = new PostAdapter(getActivity(), lists);
         recyclerView = view.findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getContext());
@@ -127,7 +127,8 @@ public class HomeFragment extends Fragment {
                 getContext(),R.style.BottomSheetDialog
         );
         bottomSheetView=LayoutInflater.from(getContext())
-                .inflate(R.layout.layout_bottom_sheet,(LinearLayout)getView().findViewById(R.id.bottomSheetContainer));
+                .inflate(R.layout.layout_bottom_sheet,(LinearLayout)
+                        getView().findViewById(R.id.bottomSheetContainer));
         title=bottomSheetView.findViewById(R.id.titlePost);
         description=bottomSheetView.findViewById(R.id.desPost);
         imagePost=bottomSheetView.findViewById(R.id.imagePost);
@@ -299,6 +300,9 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot doc : value) {
                                 Post post=doc.toObject(Post.class);
                                 post.setPostId(doc.getId());
+                                DocumentReference noteRef =
+                                        db.collection("Posts").document(post.getPostId());
+                                noteRef.update("postId",doc.getId());
                                 lists.add(post);
 //                                if (post.getUid().equals(firebaseUser.getUid()))
 //                                {
