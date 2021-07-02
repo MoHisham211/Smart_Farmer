@@ -24,6 +24,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -36,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import mo.zain.smartfarmer.R;
 import mo.zain.smartfarmer.model.Post;
 
@@ -43,14 +49,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private Context mCtx;
     private List<Post> postList=new ArrayList<>();
     boolean flag=false;
-    String userId;
-    ProgressDialog pd;
+    private String userId;
+    private ProgressDialog pd;
+    private DatabaseReference likesRef;
+    private FirebaseFirestore db ;
     public PostAdapter(Context mCtx, List<Post> postList) {
         this.mCtx = mCtx;
         this.postList = postList;
         userId=FirebaseAuth.getInstance().getCurrentUser().getUid();
         pd=new ProgressDialog(mCtx);
         pd.setMessage("Deleting.........");
+        likesRef= FirebaseDatabase.getInstance().getReference().child("Likes");
+        db = FirebaseFirestore.getInstance();
+        //realtime --->Comment
+
     }
 
     @NonNull
@@ -69,13 +81,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post post = postList.get(position);
         String imag=postList.get(position).getImage();
 
+        Glide.with(mCtx)
+                .load(post.getUserImage())
+                .into(holder.postProfile);
+
+        Glide.with(mCtx)
+                .load(imag)
+                .into(holder.imagePost);
+        holder.postName
+                .setText(post.getName());
+
         holder.title
                     .setText(post.getTitle());
         holder.des
                 .setText(post.getDescription());
         holder.loveCount
-                .setText("Love"+post.getLoveCount());
+                .setText(post.getLoveCount()+" Love");
 
+        DocumentReference noteRef =
+                db.collection("Posts").document(post.getPostId());
+
+        setLikes(holder,post.getPostId());
         try {
             Glide.with(mCtx)
                     .load(imag)
@@ -117,31 +143,71 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             @Override
             public void onClick(View v) {
                 if (!post.getUid().equals(userId)) {
-                    if (flag == false) {
-                        flag = true;
-                        holder.love.setTextColor(Color.RED);
-                        holder.love.setCompoundDrawablesWithIntrinsicBounds(
+                    int pLike=Integer.parseInt(post.getLoveCount());
+                    flag =true;
+                    likesRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if (flag)
+                            {
+                                if (snapshot.child(post.getPostId()).hasChild(userId))
+                                {
+                                    //
+                                    noteRef.update("loveCount",(""+(pLike-1)));
+                                    likesRef.child(post.getPostId()).child(userId).removeValue();
+                                    flag=false;
+                                }
+                                else
+                                {
+                                    noteRef.update("loveCount",(""+(pLike+1)));
+                                    likesRef.child(post.getPostId()).child(userId).setValue("Liked");
+                                    flag=false;
+                                }
+
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    private void setLikes(PostViewHolder holder, String postId) {
+        likesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.child(postId).hasChild(userId))
+                {
+                    holder.love.setTextColor(Color.RED);
+                    holder.love.setCompoundDrawablesWithIntrinsicBounds(
                                 R.drawable.read_love_icon, //left
                                 0, //top
                                 0, //right
                                 0 //bottom
                         );
-                    } else {
-                        flag = false;
-                        holder.love.setTextColor(Color.BLACK);
+                }else {
+                    holder.love.setTextColor(Color.BLACK);
                         holder.love.setCompoundDrawablesWithIntrinsicBounds(
                                 R.drawable.heart_love_icon, //left
                                 0, //top
                                 0, //right
                                 0 //bottom
                         );
-                    }
-
                 }
             }
-        });
 
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
     }
+
     void showMoreOptions(ImageView edit,String userID,String myid,String postId,String postImage,String title,String des)
     {
         PopupMenu popupMenu=new PopupMenu(mCtx,edit, Gravity.END);
@@ -241,9 +307,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     class PostViewHolder extends RecyclerView.ViewHolder{
 
-        TextView title,des,loveCount;
+        TextView title,des,loveCount,postName;
         ImageView imagePost,edit;
         Button love,comment,share;
+        CircleImageView postProfile;
         public PostViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.title);
@@ -254,6 +321,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             share=itemView.findViewById(R.id.buttonShare);
             loveCount=itemView.findViewById(R.id.loveCount);
             edit=itemView.findViewById(R.id.editPost);
+            postProfile=itemView.findViewById(R.id.postProfile);
+            postName=itemView.findViewById(R.id.postName);
+
         }
     }
 }

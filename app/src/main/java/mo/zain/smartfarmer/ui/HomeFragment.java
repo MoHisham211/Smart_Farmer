@@ -79,6 +79,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ProgressBar progressBar;
+    String name,email,phone,imageProfile;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -159,6 +160,11 @@ public class HomeFragment extends Fragment {
 
                 profileName.setText(map.get("UserName"));
                 Glide.with(getContext()).load(map.get("imageURL")).into(profileImage);
+                email=map.get("Email");
+                name=map.get("UserName");
+                phone=map.get("Mobile");
+                imageProfile=map.get("imageURL");
+
             }
 
             @Override
@@ -222,7 +228,7 @@ public class HomeFragment extends Fragment {
             Post post=
                     new Post(title.getText().toString()
                             ,description.getText().toString()
-                            ,"noImage",firebaseUser.getUid(),"0");
+                            ,"noImage",firebaseUser.getUid(),"0",email,name,phone,imageProfile);
             db.collection("Posts").
                     add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -280,7 +286,7 @@ public class HomeFragment extends Fragment {
         String titleT=title.getText().toString();
         String desT=description.getText().toString();
         String postPhoto=imgURL;
-        return new Post(titleT,desT,postPhoto,firebaseUser.getUid(),"0");
+        return new Post(titleT,desT,postPhoto,firebaseUser.getUid(),"0",email,name,phone,imageProfile);
     }
     private void loadPosts() {
 
