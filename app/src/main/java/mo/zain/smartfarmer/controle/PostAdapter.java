@@ -398,8 +398,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
     private void uploadFile(String title, String des, String postImage,String postId, String loveCount, String email, String name, String phone, String userImage,String userId) {
 
-        pd.setTitle("انتظر حتي تعدل الداتا");
-        pd.setMessage("انتظااار.....");
+        pd.setTitle("Wait for the data to be modified");
+        pd.setMessage("waiting..");
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setCancelable(false);
@@ -418,7 +418,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     urlImage= uri.toString();
-                                    uploadCategory(urlImage,postId,postImage,title,des,loveCount,email,name,phone,userImage,userId);
+                                    uploadPost(urlImage,postId,postImage,title,des,loveCount,email,name,phone,userImage,userId);
 
                                 }
                             });
@@ -481,7 +481,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 IMAGE_REQUEST);
     }
 
-    private void uploadCategory(String imgURL,String postId,String postImage,String title,String desc, String loveCount, String email, String name, String phone, String userImage,String userId)
+    private void uploadPost(String imgURL,String postId,String postImage,String title,String desc, String loveCount, String email, String name, String phone, String userImage,String userId)
     {
 
         FirebaseFirestore db =
@@ -491,12 +491,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 db.collection("Posts").
                         document(postId);
 
-        noteRef.set(getCategory(postId,imgURL,postImage,title,desc,loveCount,email,name,phone,userImage,userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
+        noteRef.set(getPost(postId,imgURL,postImage,title,desc,loveCount,email,name,phone,userImage,userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     //Toast.makeText(UpdateCategory.this, "Done", Toast.LENGTH_SHORT).show();
-                    FancyToast.makeText(mCtx,"تم " , FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                    FancyToast.makeText(mCtx,"Done! " , FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
                 }
                 else{
 
@@ -505,7 +505,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         });
 
     }
-    private Post getCategory(String pId,String imgURL,String postImage,String title,String desc, String loveCount, String email, String name, String phone, String userImage,String userId) {
+    private Post getPost(String pId,String imgURL,String postImage,String title,String desc, String loveCount, String email, String name, String phone, String userImage,String userId) {
         StorageReference photoRef = FirebaseStorage.getInstance()
                 .getReferenceFromUrl(postImage);
         photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
