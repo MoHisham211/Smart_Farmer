@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
     app:startDestination="@id/homeFragment">
 
@@ -24,4 +25,14 @@
         android:id="@+id/controlFragment"
         android:name="mo.zain.smartfarmer.ui.ControlFragment"
         android:label="ControlFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="mo.zain.smartfarmer.ui.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="mo.zain.smartfarmer.ui.CommentFragment"
+        android:label="fragment_comment"
+        tools:layout="@layout/fragment_comment" />
 </navigation>

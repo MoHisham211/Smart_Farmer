@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,7 @@ import java.util.UUID;
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.zain.smartfarmer.R;
 import mo.zain.smartfarmer.controle.PostAdapter;
+import mo.zain.smartfarmer.model.Comment;
 import mo.zain.smartfarmer.model.Post;
 
 
@@ -80,6 +82,9 @@ public class HomeFragment extends Fragment {
     LinearLayoutManager layoutManager;
     ProgressBar progressBar;
     String name,email,phone,imageProfile;
+    LinearLayout toProfile;
+    List<Comment> comments=new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,6 +114,13 @@ public class HomeFragment extends Fragment {
         layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        toProfile=view.findViewById(R.id.toProfile);
+        toProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.profileFragment);
+            }
+        });
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +172,10 @@ public class HomeFragment extends Fragment {
                 Map<String, String> map = (Map) snapshot.getValue();
 
                 profileName.setText(map.get("UserName"));
+                if (!map.get("imageURL").equals(""))
                 Glide.with(getContext()).load(map.get("imageURL")).into(profileImage);
+                else
+                Glide.with(getContext()).load(R.drawable.ic_profile).into(profileImage);
                 email=map.get("Email");
                 name=map.get("UserName");
                 phone=map.get("Mobile");
@@ -229,7 +244,7 @@ public class HomeFragment extends Fragment {
             Post post=
                     new Post(title.getText().toString()
                             ,description.getText().toString()
-                            ,"noImage",firebaseUser.getUid(),"0",email,name,phone,imageProfile);
+                            ,"noImage",firebaseUser.getUid(),"0",email,name,phone,imageProfile,"0",comments);
             db.collection("Posts").
                     add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -243,16 +258,13 @@ public class HomeFragment extends Fragment {
                             FancyToast.makeText(getContext(),"Success",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
                             bottomSheetDialog.dismiss();
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
+                    }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
                             FancyToast.makeText(getContext(),"Failed",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                         }
                     });
-//            FancyToast.makeText(getContext(),"You must upload a picture",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
-//            progressDialog.dismiss();
         }else
         {
             title.setError("You Must Enter Title");
@@ -287,10 +299,9 @@ public class HomeFragment extends Fragment {
         String titleT=title.getText().toString();
         String desT=description.getText().toString();
         String postPhoto=imgURL;
-        return new Post(titleT,desT,postPhoto,firebaseUser.getUid(),"0",email,name,phone,imageProfile);
+        return new Post(titleT,desT,postPhoto,firebaseUser.getUid(),"0",email,name,phone,imageProfile,"0",comments);
     }
     private void loadPosts() {
-
         db.collection("Posts")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -304,11 +315,6 @@ public class HomeFragment extends Fragment {
                                         db.collection("Posts").document(post.getPostId());
                                 noteRef.update("postId",doc.getId());
                                 lists.add(post);
-//                                if (post.getUid().equals(firebaseUser.getUid()))
-//                                {
-//
-//                                    Toast.makeText(getContext(), ""+post.getUid(), Toast.LENGTH_SHORT).show();
-//                                }
                             }
                             adapter.notifyDataSetChanged();
                             progressBar.setVisibility(View.GONE);

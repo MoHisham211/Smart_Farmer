@@ -24,7 +24,7 @@
 <!--            <padding-->
 <!--                android:left="35dp"-->
 <!--                android:right="35dp" />-->
-            <size android:height="40sp"/>
+            <size android:height="45sp"/>
         </shape>
     </item>
 </layer-list>

@@ -1,11 +1,13 @@
 package mo.zain.smartfarmer.controle;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -108,9 +111,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
 
 
-        Glide.with(mCtx)
-                .load(post.getUserImage())
-                .into(holder.postProfile);
+
+        if (!post.getUserImage().equals(""))
+            Glide.with(mCtx)
+                    .load(post.getUserImage())
+                    .into(holder.postProfile);
+        else
+            Glide.with(mCtx)
+                    .load(R.drawable.ic_profile)
+                    .into(holder.postProfile);
 
         Glide.with(mCtx)
                 .load(imag)
@@ -127,6 +136,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         DocumentReference noteRef =
                 db.collection("Posts").document(post.getPostId());
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(mCtx, "Test", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("PostId", post.getPostId());
+                Navigation.findNavController(v).navigate(R.id.commentFragment,bundle);
+            }
+        });
 
         setLikes(holder,post.getPostId());
         try {
@@ -151,15 +169,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         }
 
-        if (post.getUid().equals(userId))
-        {
-            holder.edit
-                    .setVisibility(View.VISIBLE);
-        }else
-        {
-            holder.edit
-                    .setVisibility(View.GONE);
-        }
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,19 +256,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     {
         PopupMenu popupMenu=new PopupMenu(mCtx,edit, Gravity.END);
 
-        popupMenu.getMenu().add(Menu.NONE,0,0,"Delete");
-        popupMenu.getMenu().add(Menu.NONE,1,0,"Edit");
+
+        if (userID.equals(myid)) {
+            popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
+            popupMenu.getMenu().add(Menu.NONE, 1, 0, "Edit");
+        }
+        popupMenu.getMenu().add(Menu.NONE,2,0,"View Detail");
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id=item.getItemId();
-                if (id==0){
-                    delete(postId,postImage);
-                }
-                if (id==1)
-                {
-                    EditAll(title,des,postImage,postId,loveCount,email,name,phone,userImage,userID);
-                }
+
+
+                    if (id==0){
+                        delete(postId,postImage);
+                    }
+                    if (id==1)
+                    {
+                        EditAll(title,des,postImage,postId,loveCount,email,name,phone,userImage,userID);
+                    }
+                    if (id==2)
+                    {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PostId", postId);
+                        Navigation.findNavController(v).navigate(R.id.commentFragment,bundle);
+                    }
+
+
 
                 return false;
             }

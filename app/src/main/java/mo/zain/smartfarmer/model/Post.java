@@ -1,8 +1,12 @@
 package mo.zain.smartfarmer.model;
 
-public class Post {
-    String title,description,image,uid,loveCount,postId,email,name,phone,userImage;
+import java.util.List;
 
+public class Post {
+
+    String title,description,image,uid,loveCount,postId,email,name,phone,userImage,CommentCount;
+
+    private List<Comment> comments;
     public String getLoveCount() {
         return loveCount;
     }
@@ -27,7 +31,7 @@ public class Post {
         this.userImage = userImage;
     }
 
-    public Post(String title, String description, String image, String uid, String loveCount, String email, String name, String phone, String userImage) {
+    public Post(String title, String description, String image, String uid, String loveCount, String email, String name, String phone, String userImage,String CommentCount,List<Comment> comments) {
         this.title = title;
         this.description = description;
         this.image = image;
@@ -37,6 +41,24 @@ public class Post {
         this.name = name;
         this.phone = phone;
         this.userImage=userImage;
+        this.CommentCount=CommentCount;
+        this.comments=comments;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public String getCommentCount() {
+        return CommentCount;
+    }
+
+    public void setCommentCount(String commentCount) {
+        CommentCount = commentCount;
     }
 
     public String getEmail() {
