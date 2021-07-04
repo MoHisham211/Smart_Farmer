@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CommentFragment"
-    android:background="#E8E8E8">
+    tools:context=".ui.CommentFragment">
 
     <LinearLayout
         android:elevation="12dp"
@@ -16,11 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +29,6 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_profile" />
-
                 <TextView
                     android:id="@+id/postName"
                     android:layout_width="wrap_content"
@@ -160,8 +156,9 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#F1F1F1"
         android:background="@drawable/background_et"
-        android:drawableLeft="@drawable/keyboard"
+        android:drawableLeft="@drawable/keyboard_desktop"
         android:drawablePadding="8dp"
         android:ems="10"
         android:paddingRight="8dp"
