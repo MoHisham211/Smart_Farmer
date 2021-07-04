@@ -81,7 +81,7 @@
         <ImageView
             android:id="@+id/Image"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="160dp"
             tools:src="@drawable/ic_igallery_google" />
 
         <TextView
@@ -117,18 +117,6 @@
                 android:padding="2dp"
                 android:text="Love" />
 
-            <!--            <Button-->
-            <!--                android:id="@+id/buttoncomment"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:background="@android:color/transparent"-->
-            <!--                android:drawableLeft="@drawable/comment_icon"-->
-            <!--                android:drawablePadding="10dp"-->
-            <!--                android:fontFamily="@font/ubuntu_regular"-->
-            <!--                android:padding="2dp"-->
-            <!--                android:text="Comment" />-->
-
             <Button
                 android:id="@+id/buttonShare"
                 android:layout_width="wrap_content"
@@ -140,11 +128,22 @@
                 android:fontFamily="@font/ubuntu_regular"
                 android:padding="2dp"
                 android:text="Share" />
-
         </LinearLayout>
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Comments"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:drawablePadding="15dp"
+            android:drawableLeft="@drawable/comment_icon"
+            />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        tools:listitem="@layout/comment_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"

@@ -17,26 +17,15 @@ import mo.zain.smartfarmer.authentication.IntroActivity;
 
 public class ReadFragment extends Fragment {
 
-    Button button2;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_read, container, false);
-        button2 = view.findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogFun();
-            }
-        });
+
         return view;
     }
-    private void LogFun()
-    {
-        FirebaseAuth.getInstance().signOut();
-        getActivity().startActivity(new Intent(getContext(), IntroActivity.class));
-        getActivity().finish();
-    }
+
 }

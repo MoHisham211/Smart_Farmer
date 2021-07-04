@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.UserHandle;
 import android.text.TextUtils;
@@ -49,11 +51,13 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.zain.smartfarmer.R;
+import mo.zain.smartfarmer.controle.CommentAdapter;
 import mo.zain.smartfarmer.controle.PostAdapter;
 import mo.zain.smartfarmer.model.Comment;
 import mo.zain.smartfarmer.model.Post;
@@ -74,6 +78,10 @@ public class CommentFragment extends Fragment {
     private DatabaseReference CommentRef;
     List<Comment>commentList=new ArrayList<>();
     private DatabaseReference likesRef;
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    CommentAdapter commentAdapter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,10 +101,18 @@ public class CommentFragment extends Fragment {
         comment=view.findViewById(R.id.editTextTextPersonName);
         send=view.findViewById(R.id.circleImageView);
         db = FirebaseFirestore.getInstance();
+
+        recyclerView = view.findViewById(R.id.rv);
+        recyclerView.setHasFixedSize(true);
+        layoutManager=new LinearLayoutManager(getContext());
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
+
         loadPostInfo(postID);
         checkUserStatus();
         loadUserInfo();
-
+        loadComments(postID);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +122,61 @@ public class CommentFragment extends Fragment {
         setLikes(postID);
         return view;
     }
+
+    private void loadComments(String postID) {
+
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CollectionReference applicationsRef = rootRef.collection("Posts");
+        DocumentReference applicationIdRef = applicationsRef.document(postID);
+        applicationIdRef.get().addOnCompleteListener(task -> {
+
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    List<Map<String, Object>> commentList1 = (List<Map<String, Object>>) document.get("comments");
+                    commentList.clear();
+                    for (int i=0;i<commentList1.size();i++)
+                    {
+                        Comment comment=new Comment();
+                        for (Map.Entry mapElement : commentList1.get(i).entrySet()) {
+                            String key = (String)mapElement.getKey();
+                            String value = ((String) mapElement.getValue());
+                            if (key.equals("commenttxt"))
+                            {
+                                comment.setCommenttxt(value);
+                            }
+                            else if(key.equals("UserUid"))
+                            {
+                                comment.setUserUid(value);
+                            }
+                            else if(key.equals("UserEmail"))
+                            {
+                                comment.setUserEmail(value);
+                            }
+                            else if(key.equals("UserName"))
+                            {
+                                comment.setUserName(value);
+                            }
+                            else if(key.equals("myDp"))
+                            {
+                                comment.setMyDp(value);
+                            }
+
+                        }
+                        commentList.add(comment);
+                    }
+                   commentAdapter = new CommentAdapter(getActivity(), commentList);
+                    commentAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(commentAdapter);
+
+                }
+            }
+        });
+
+    }
+
+
+
 
     private void postComment()
     {
@@ -121,7 +192,6 @@ public class CommentFragment extends Fragment {
             return;
         }
         Comment comment1=new Comment(myUid,myEmail,myName,myDp,commentStr);
-        commentList.add(comment1);
         FirebaseFirestore rootReff=FirebaseFirestore.getInstance();
         CollectionReference app=rootReff.collection("Posts");
         DocumentReference documentReference=app.document(postID);
@@ -132,9 +202,9 @@ public class CommentFragment extends Fragment {
                         if (documentSnapshot.exists())
                         {
                             documentReference.update( "comments", FieldValue.arrayUnion(comment1));
-
                             comment.setText("");
                             updateCommentCount();
+                            loadComments(postID);
                         }
                         progressDialog.dismiss();
                     }
@@ -145,6 +215,7 @@ public class CommentFragment extends Fragment {
                 progressDialog.dismiss();
             }
         });
+
     }
 
     private void setLikes(String postId) {
@@ -180,6 +251,7 @@ public class CommentFragment extends Fragment {
 
 
     private void updateCommentCount() {
+       // loadComments(postID);
         loadPostInfo(postID);
         DocumentReference noteRef =
                 db.collection("Posts").document(postID);
