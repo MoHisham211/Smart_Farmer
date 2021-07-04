@@ -156,7 +156,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="#F1F1F1"
+        android:backgroundTint="#FBFBFB"
         android:background="@drawable/background_et"
         android:drawableLeft="@drawable/keyboard_desktop"
         android:drawablePadding="8dp"
