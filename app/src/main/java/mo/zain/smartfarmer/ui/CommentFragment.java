@@ -1,6 +1,7 @@
 package mo.zain.smartfarmer.ui;
 
 import android.app.ProgressDialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -50,7 +51,10 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +72,7 @@ public class CommentFragment extends Fragment {
             ,postID,pLike,hisDp,hisName,pcommentCount;
     private ImageView postImage;
     CircleImageView userPost;
-    TextView namePost,title,description,plikes;
+    TextView namePost,title,description,plikes,time;
     Button love,share;
     //
     EditText comment;
@@ -100,6 +104,7 @@ public class CommentFragment extends Fragment {
         share=view.findViewById(R.id.buttonShare);
         comment=view.findViewById(R.id.editTextTextPersonName);
         send=view.findViewById(R.id.circleImageView);
+        time=view.findViewById(R.id.timeTxt);
         db = FirebaseFirestore.getInstance();
 
         recyclerView = view.findViewById(R.id.rv);
@@ -125,7 +130,7 @@ public class CommentFragment extends Fragment {
 
     private void loadComments(String postID) {
 
-                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference applicationsRef = rootRef.collection("Posts");
         DocumentReference applicationIdRef = applicationsRef.document(postID);
         applicationIdRef.get().addOnCompleteListener(task -> {
@@ -145,21 +150,24 @@ public class CommentFragment extends Fragment {
                             {
                                 comment.setCommenttxt(value);
                             }
-                            else if(key.equals("UserUid"))
+                            else if(key.equals("userUid"))
                             {
                                 comment.setUserUid(value);
                             }
-                            else if(key.equals("UserEmail"))
+                            else if(key.equals("userEmail"))
                             {
                                 comment.setUserEmail(value);
                             }
-                            else if(key.equals("UserName"))
+                            else if(key.equals("userName"))
                             {
                                 comment.setUserName(value);
                             }
                             else if(key.equals("myDp"))
                             {
                                 comment.setMyDp(value);
+                            }else if (key.equals("time"))
+                            {
+                                comment.setTime(value);
                             }
 
                         }
@@ -191,7 +199,10 @@ public class CommentFragment extends Fragment {
             progressDialog.dismiss();
             return;
         }
-        Comment comment1=new Comment(myUid,myEmail,myName,myDp,commentStr);
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy hh:mm a");
+        String currentTime=formatter.format(date);
+        Comment comment1=new Comment(myUid,myEmail,myName,myDp,commentStr,currentTime);
         FirebaseFirestore rootReff=FirebaseFirestore.getInstance();
         CollectionReference app=rootReff.collection("Posts");
         DocumentReference documentReference=app.document(postID);
@@ -218,6 +229,7 @@ public class CommentFragment extends Fragment {
 
     }
 
+
     private void setLikes(String postId) {
         likesRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -234,7 +246,7 @@ public class CommentFragment extends Fragment {
                 }else {
                     love.setTextColor(Color.BLACK);
                     love.setCompoundDrawablesWithIntrinsicBounds(
-                            R.drawable.heart_love_icon, //left
+                            R.drawable.love_like_heart_icon, //left
                             0, //top
                             0, //right
                             0 //bottom
@@ -289,7 +301,9 @@ public class CommentFragment extends Fragment {
                         title.setText(post.getTitle());
                         description.setText(post.getDescription());
                         pcommentCount=post.getCommentCount();
+
                         namePost.setText(post.getName());
+                        time.setText(post.getTime());
                         if (!post.getUserImage().equals(""))
                         Glide.with(getContext())
                                 .load(post.getUserImage())

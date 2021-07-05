@@ -1,17 +1,26 @@
 package mo.zain.smartfarmer.model;
 
 public class Comment {
-    String UserUid,UserEmail,UserName,myDp,commenttxt;
+    String UserUid,UserEmail,UserName,myDp,commenttxt,time;
 
     public Comment() {
     }
 
-    public Comment(String userUid, String userEmail, String userName, String myDp, String commenttxt) {
+    public Comment(String userUid, String userEmail, String userName, String myDp, String commenttxt,String time) {
         UserUid = userUid;
         UserEmail = userEmail;
         UserName = userName;
         this.myDp = myDp;
         this.commenttxt = commenttxt;
+        this.time=time;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getUserUid() {

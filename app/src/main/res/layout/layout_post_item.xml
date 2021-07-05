@@ -24,18 +24,34 @@
                 android:layout_weight="0.9">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/postProfile"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_profile"/>
-                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_profile" />
+                <LinearLayout
                     android:layout_marginLeft="4dp"
-                    android:id="@+id/postName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/ubuntu_regular"
-                    tools:text="Mo.Hisham"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:id="@+id/postName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:fontFamily="@font/ubuntu_medium"
+                        tools:text="Mo.Hisham"/>
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="left|center_vertical"
+                        android:fontFamily="@font/ubuntu_regular"
+                        android:id="@+id/timeTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="time"/>
+                </LinearLayout>
             </LinearLayout>
                 <ImageView
                     android:layout_weight="0.1"
@@ -67,37 +83,16 @@
             android:padding="4dp"
             tools:text="Description of an post lab lab lab bal bal llllallalalla"
             android:fontFamily="@font/ubuntu_medium" />
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            app:riv_corner_radius="20dp"
+            android:scaleType="centerCrop"
             tools:src="@drawable/ic_igallery_google"
             android:id="@+id/Image"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/loveCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="love:2"
-            android:layout_gravity="left"
-            android:gravity="left"
-            android:layout_weight="1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:fontFamily="@font/ubuntu_regular"/>
-            <TextView
-                android:id="@+id/CommentCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="love:2"
-                android:layout_weight="1"
-                android:layout_gravity="right"
-                android:gravity="right"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:fontFamily="@font/ubuntu_regular"/>
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -110,37 +105,46 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp">
-            <Button
+            <TextView
                 android:padding="2dp"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:id="@+id/buttonlove"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/heart_love_icon"
+                android:drawableLeft="@drawable/love_like_heart_icon"
                 android:drawablePadding="10dp"
                 android:text="Love"
                 android:fontFamily="@font/ubuntu_regular"
                 android:background="@android:color/transparent"/>
-            <Button
+            <TextView
                 android:padding="2dp"
                 android:layout_weight="1"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:id="@+id/buttoncomment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/comment_icon"
                 android:drawablePadding="10dp"
-                android:text="Comment"
+                tools:text="Comment"
                 android:fontFamily="@font/ubuntu_regular"
                 android:background="@android:color/transparent"/>
-            <Button
+            <TextView
                 android:padding="2dp"
                 android:layout_weight="1"
                 android:id="@+id/buttonShare"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/share_turn_icon"
                 android:drawablePadding="10dp"
-                android:text="Share"
+                tools:text="Share"
                 android:fontFamily="@font/ubuntu_regular"
                 android:background="@android:color/transparent"/>
 

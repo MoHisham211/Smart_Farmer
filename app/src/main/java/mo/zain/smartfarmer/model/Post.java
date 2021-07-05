@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Post {
 
-    String title,description,image,uid,loveCount,postId,email,name,phone,userImage,CommentCount;
+    String title,description,image,uid,loveCount,postId,email,name,phone,userImage,CommentCount,Time;
 
     private List<Comment> comments;
     public String getLoveCount() {
@@ -31,7 +31,7 @@ public class Post {
         this.userImage = userImage;
     }
 
-    public Post(String title, String description, String image, String uid, String loveCount, String email, String name, String phone, String userImage,String CommentCount,List<Comment> comments) {
+    public Post(String title, String description, String image, String uid, String loveCount, String email, String name, String phone, String userImage,String CommentCount,List<Comment> comments,String Time) {
         this.title = title;
         this.description = description;
         this.image = image;
@@ -43,6 +43,15 @@ public class Post {
         this.userImage=userImage;
         this.CommentCount=CommentCount;
         this.comments=comments;
+        this.Time=Time;
+    }
+
+    public String getTime() {
+        return Time;
+    }
+
+    public void setTime(String time) {
+        Time = time;
     }
 
     public List<Comment> getComments() {

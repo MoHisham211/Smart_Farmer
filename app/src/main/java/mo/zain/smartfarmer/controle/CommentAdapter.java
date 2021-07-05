@@ -45,6 +45,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         Comment comment=commentList.get(position);
         holder.userName.setText(comment.getUserName());
         holder.Commenttxt.setText(comment.getCommenttxt());
+        holder.time.setText(comment.getTime());
 
         try {
             if (!comment.getMyDp().equals(""))
@@ -72,12 +73,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public class CommentViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView proImaage;
-        TextView userName,Commenttxt;
+        TextView userName,Commenttxt,time;
 
         public CommentViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             proImaage=itemView.findViewById(R.id.commentImage);
             userName=itemView.findViewById(R.id.userName);
+            time=itemView.findViewById(R.id.timeee);
             Commenttxt=itemView.findViewById(R.id.commentKK);
 
         }

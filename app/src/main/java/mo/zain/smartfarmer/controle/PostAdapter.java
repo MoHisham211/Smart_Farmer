@@ -77,6 +77,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public static String urlImage;
     private StorageReference fileRef;
     private StorageReference imageReference;
+
+
+
     public PostAdapter(Activity mCtx, List<Post> postList) {
         this.mCtx = mCtx;
         this.postList = postList;
@@ -107,10 +110,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         Post post = postList.get(position);
         String imag=postList.get(position).getImage();
-
-
-
-
+        holder.time.setText(post.getTime());
+        holder.comment.setText(post.getCommentCount());
 
         if (!post.getUserImage().equals(""))
             Glide.with(mCtx)
@@ -131,8 +132,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     .setText(post.getTitle());
         holder.des
                 .setText(post.getDescription());
-        holder.loveCount
-                .setText(post.getLoveCount()+" Love");
+//        holder.loveCount
+//                .setText(post.getLoveCount()+" Love");
+        holder.love.setText(post.getLoveCount());
 
         DocumentReference noteRef =
                 db.collection("Posts").document(post.getPostId());
@@ -233,9 +235,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 0 //bottom
                         );
                 }else {
+
                     holder.love.setTextColor(Color.BLACK);
                         holder.love.setCompoundDrawablesWithIntrinsicBounds(
-                                R.drawable.heart_love_icon, //left
+                                R.drawable.love_like_heart_icon, //left
                                 0, //top
                                 0, //right
                                 0 //bottom
@@ -366,9 +369,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     class PostViewHolder extends RecyclerView.ViewHolder{
 
-        TextView title,des,loveCount,postName;
+        TextView title,des,loveCount,postName,time,love,comment,share;
         ImageView imagePost,edit;
-        Button love,comment,share;
+        //Button love,comment,share;
         CircleImageView postProfile;
         public PostViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -382,6 +385,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             edit=itemView.findViewById(R.id.editPost);
             postProfile=itemView.findViewById(R.id.postProfile);
             postName=itemView.findViewById(R.id.postName);
+            time=itemView.findViewById(R.id.timeTxt);
 
         }
     }

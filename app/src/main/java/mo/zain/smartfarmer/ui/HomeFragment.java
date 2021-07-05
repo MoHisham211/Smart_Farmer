@@ -46,7 +46,10 @@ import com.google.firebase.storage.UploadTask;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -241,10 +244,14 @@ public class HomeFragment extends Fragment {
                         }
                     });
         } else if (!title.getText().toString().isEmpty()){
+            Date date = Calendar.getInstance().getTime();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy hh:mm a");
+            String currentTime=formatter.format(date);
             Post post=
                     new Post(title.getText().toString()
                             ,description.getText().toString()
-                            ,"noImage",firebaseUser.getUid(),"0",email,name,phone,imageProfile,"0",comments);
+                            ,"noImage",firebaseUser.getUid(),"0",email,name,phone,imageProfile,"0"
+                            ,comments,currentTime);
             db.collection("Posts").
                     add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -296,10 +303,15 @@ public class HomeFragment extends Fragment {
                 });
     }
     private Post getPost(String imgURL) {
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy hh:mm a");
+        String currentTime=formatter.format(date);
         String titleT=title.getText().toString();
         String desT=description.getText().toString();
         String postPhoto=imgURL;
-        return new Post(titleT,desT,postPhoto,firebaseUser.getUid(),"0",email,name,phone,imageProfile,"0",comments);
+        return new Post(titleT,desT,postPhoto
+                ,firebaseUser.getUid(),"0",email
+                ,name,phone,imageProfile,"0",comments,currentTime);
     }
     private void loadPosts() {
         db.collection("Posts")

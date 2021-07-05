@@ -5,19 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.CommentFragment">
-
-    <LinearLayout
-        android:elevation="12dp"
-        android:id="@+id/linearLayout2"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="?actionBarSize"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center"
+                android:text="Post Details"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
+
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="12dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+        <LinearLayout
+            android:padding="4dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -26,29 +58,38 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/postProfile"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_profile" />
-                <TextView
-                    android:id="@+id/postName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginLeft="4dp"
-                    android:fontFamily="@font/ubuntu_regular"
-                    android:gravity="center"
-                    tools:text="Mo.Hisham" />
-            </LinearLayout>
+                    android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/editPost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="0.1"
-                android:src="@drawable/more_icon" />
+                    <TextView
+                        android:id="@+id/postName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:gravity="center_vertical"
+                        tools:text="Mo.Hisham" />
+
+                    <TextView
+                        android:id="@+id/timeTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/ubuntu_regular"
+                        android:gravity="center_vertical"
+                        tools:text="time" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <View
@@ -74,10 +115,15 @@
             android:padding="4dp"
             tools:text="Description of an post lab lab lab bal bal llllallalalla" />
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/Image"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="170dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="20dp"
             tools:src="@drawable/ic_igallery_google" />
 
         <TextView
@@ -107,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/heart_love_icon"
+                android:drawableLeft="@drawable/love_like_heart_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/ubuntu_regular"
                 android:padding="2dp"
@@ -125,16 +171,16 @@
                 android:padding="2dp"
                 android:text="Share" />
         </LinearLayout>
+
         <TextView
-            android:layout_marginLeft="5dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Comments"
-            android:textSize="15sp"
-            android:gravity="center_vertical"
-            android:drawablePadding="15dp"
+            android:layout_marginLeft="8dp"
             android:drawableLeft="@drawable/comment_icon"
-            />
+            android:drawablePadding="15dp"
+            android:gravity="center_vertical"
+            android:text="Comments"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
