@@ -11,13 +11,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +54,7 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.zain.smartfarmer.R;
-import mo.zain.smartfarmer.controle.PostAdapter;
+import mo.zain.smartfarmer.adpter.PostAdapter;
 import mo.zain.smartfarmer.model.Comment;
 import mo.zain.smartfarmer.model.Post;
 

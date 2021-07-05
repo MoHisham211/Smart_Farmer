@@ -10,10 +10,6 @@
         android:name="mo.zain.smartfarmer.ui.HomeFragment"
         android:label="HomeFragment" />
     <fragment
-        android:id="@+id/readFragment"
-        android:name="mo.zain.smartfarmer.ui.ReadFragment"
-        android:label="ReadFragment" />
-    <fragment
         android:id="@+id/companyFragment"
         android:name="mo.zain.smartfarmer.ui.CompanyFragment"
         android:label="CompanyFragment" />
@@ -35,4 +31,17 @@
         android:name="mo.zain.smartfarmer.ui.CommentFragment"
         android:label="fragment_comment"
         tools:layout="@layout/fragment_comment" />
+    <fragment
+        android:id="@+id/chooseReadFragment"
+        android:name="mo.zain.smartfarmer.ui.read.ChooseReadFragment"
+        android:label="fragment_choose_read"
+        tools:layout="@layout/fragment_choose_read" />
+    <fragment
+        android:id="@+id/readPlantsFragment"
+        android:name="mo.zain.smartfarmer.ui.read.ReadPlantsFragment"
+        android:label="ReadPlantsFragment" />
+    <fragment
+        android:id="@+id/detialsPlantFragment"
+        android:name="mo.zain.smartfarmer.ui.read.DetialsPlantFragment"
+        android:label="DetialsPlantFragment" />
 </navigation>

@@ -11,11 +11,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -96,10 +99,21 @@ public class ProfileFragment extends Fragment {
                 edit.setText("Edit Profile");
             }
         });
+
+        Fragment fragment = new ProfileFragment();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //popBackStack(getActivity().getSupportFragmentManager());
+                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                Toast.makeText(getContext(), "5555555555", Toast.LENGTH_SHORT).show();
 
+
+//                getActivity().getFragmentManager().
+//                        beginTransaction().remove(this).commit();
+
+                //Navigation.findNavController(v).navigate(R.id.homeFragment);
+                //getActivity().getFragmentManager().popBackStack();
             }
         });
         right.setOnClickListener(new View.OnClickListener() {
@@ -267,5 +281,10 @@ public class ProfileFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         //pd.dismiss();
     }
+    public static void popBackStack(FragmentManager manager){
+        FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+        manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
 
 }

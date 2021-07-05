@@ -7,7 +7,7 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/readFragment"
+        android:id="@+id/chooseReadFragment"
         android:icon="@drawable/ic_read"
         android:title="Read" />
 
