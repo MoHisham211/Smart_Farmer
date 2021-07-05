@@ -1,6 +1,7 @@
 package mo.zain.smartfarmer.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -60,7 +61,7 @@ public class CommentFragment extends Fragment {
     private ImageView postImage;
     CircleImageView userPost;
     TextView namePost,title,description,plikes,time;
-    Button love,share;
+    TextView love,share;
     //
     EditText comment;
     ImageView send;
@@ -86,7 +87,6 @@ public class CommentFragment extends Fragment {
         namePost=view.findViewById(R.id.postName);
         title=view.findViewById(R.id.title);
         description=view.findViewById(R.id.description);
-        plikes=view.findViewById(R.id.loveCount);
         love=view.findViewById(R.id.buttonlove);
         share=view.findViewById(R.id.buttonShare);
         comment=view.findViewById(R.id.editTextTextPersonName);
@@ -286,8 +286,28 @@ public class CommentFragment extends Fragment {
                     if (document.exists()) {
                         Post post=document.toObject(Post.class);
                         title.setText(post.getTitle());
-                        description.setText(post.getDescription());
+                        if (post.getDescription().equals(""))
+                        {
+                            description.setVisibility(View.GONE);
+                        }else {
+                            description.setText(post.getDescription());
+                        }
+
                         pcommentCount=post.getCommentCount();
+
+                        share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent sendIntent = new Intent();
+                                sendIntent.setAction(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPostId());
+                                sendIntent.setType("text/plain");
+
+                                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                                getActivity().startActivity(shareIntent);
+                            }
+                        });
+                        love.setText(post.getLoveCount());
 
                         namePost.setText(post.getName());
                         time.setText(post.getTime());
@@ -299,7 +319,6 @@ public class CommentFragment extends Fragment {
                             Glide.with(getContext())
                             .load(R.drawable.ic_profile)
                             .into(userPost);
-                        plikes.setText(post.getLoveCount()+" Love");
 
                         try {
                             Glide.with(getContext())

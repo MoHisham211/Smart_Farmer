@@ -11,4 +11,7 @@
     <color name="colorDefaultNoteColor">#333333</color>
     <color name="add">#8BC34A</color>
     <color name="heart">#F44336</color>
+    <color name="myOrange">#FF9800</color>
+    <color name="myBlack">#212121</color>
+    <color name="myGray">#757575</color>
 </resources>

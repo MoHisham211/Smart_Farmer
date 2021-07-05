@@ -126,14 +126,6 @@
             app:riv_corner_radius="20dp"
             tools:src="@drawable/ic_igallery_google" />
 
-        <TextView
-            android:id="@+id/loveCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:fontFamily="@font/ubuntu_regular"
-            tools:text="love:2" />
 
         <View
             android:layout_width="match_parent"
@@ -147,7 +139,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp">
 
-            <Button
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:id="@+id/buttonlove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,10 +150,11 @@
                 android:drawableLeft="@drawable/love_like_heart_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/ubuntu_regular"
-                android:padding="2dp"
-                android:text="Love" />
+                android:padding="2dp" />
 
-            <Button
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:id="@+id/buttonShare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -168,8 +163,7 @@
                 android:drawableLeft="@drawable/share_turn_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/ubuntu_regular"
-                android:padding="2dp"
-                android:text="Share" />
+                android:padding="2dp" />
         </LinearLayout>
 
         <TextView

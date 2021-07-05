@@ -105,6 +105,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         String imag=postList.get(position).getImage();
         holder.time.setText(post.getTime());
         holder.comment.setText(post.getCommentCount());
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, post.getPostId());
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                mCtx.startActivity(shareIntent);
+            }
+        });
 
         if (!post.getUserImage().equals(""))
             Glide.with(mCtx)
@@ -123,10 +135,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.title
                     .setText(post.getTitle());
-        holder.des
-                .setText(post.getDescription());
-//        holder.loveCount
-//                .setText(post.getLoveCount()+" Love");
+        if (post.getDescription().equals(""))
+        {
+            holder.des.setVisibility(View.GONE);
+        }else
+        {
+            holder.des.setText(post.getDescription());
+        }
+
         holder.love.setText(post.getLoveCount());
 
         DocumentReference noteRef =
@@ -134,7 +150,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mCtx, "Test", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
                 bundle.putString("PostId", post.getPostId());
                 Navigation.findNavController(v).navigate(R.id.commentFragment,bundle);
@@ -374,7 +389,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             love=itemView.findViewById(R.id.buttonlove);
             comment=itemView.findViewById(R.id.buttoncomment);
             share=itemView.findViewById(R.id.buttonShare);
-            loveCount=itemView.findViewById(R.id.loveCount);
             edit=itemView.findViewById(R.id.editPost);
             postProfile=itemView.findViewById(R.id.postProfile);
             postName=itemView.findViewById(R.id.postName);
