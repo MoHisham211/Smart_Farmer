@@ -19,7 +19,7 @@
         android:label="PriceFragment" />
     <fragment
         android:id="@+id/controlFragment"
-        android:name="mo.zain.smartfarmer.ui.ControlFragment"
+        android:name="mo.zain.smartfarmer.ui.control.ControlFragment"
         android:label="ControlFragment" />
     <fragment
         android:id="@+id/profileFragment"
@@ -44,4 +44,9 @@
         android:id="@+id/detialsPlantFragment"
         android:name="mo.zain.smartfarmer.ui.read.DetialsPlantFragment"
         android:label="DetialsPlantFragment" />
+    <fragment
+        android:id="@+id/actionControlFragment"
+        android:name="mo.zain.smartfarmer.ui.control.ActionControlFragment"
+        android:label="fragment_action_control"
+        tools:layout="@layout/fragment_action_control" />
 </navigation>
