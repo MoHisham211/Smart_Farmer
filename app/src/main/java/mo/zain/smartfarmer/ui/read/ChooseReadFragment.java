@@ -123,8 +123,7 @@ public class ChooseReadFragment extends Fragment implements LocationListener {
             @Override
             public void onChanged(WeatherModel weatherModel) {
 
-                int num = 0176;
-                char degree = (char) num;
+
                 city_weather.setText(weatherModel.getName());
                 temp_weather.setText(Math.round(weatherModel.getMain().getTemp()-272.15)+" °C");
                 max_temp.setText(Math.round(weatherModel.getMain().getTempMax()-272.15)+" °C");

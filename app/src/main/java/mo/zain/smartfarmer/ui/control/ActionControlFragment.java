@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,7 @@ public class ActionControlFragment extends Fragment {
     boolean flag=false;
     LinearLayout linearLayout4;
     ImageView back;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +72,8 @@ public class ActionControlFragment extends Fragment {
         btnDis = view.findViewById(R.id.dis_btn);
         dataTW = view.findViewById(R.id.TW_data);
         On = view.findViewById(R.id.on_btn);
+        progressBar=view.findViewById(R.id.progress_bar);
+        progressBar.setMax(1024);
         back=view.findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +216,8 @@ public class ActionControlFragment extends Fragment {
 
                                     try{
                                         ForStop=Double.parseDouble(data);
+                                        int gg=(int) ForStop.intValue();
+                                        progressBar.setProgress(gg);
                                         if (ForStop<=650.00)
                                         {
                                             turnOffLed();
@@ -372,6 +378,7 @@ public class ActionControlFragment extends Fragment {
                                     System.arraycopy(generalBuffer, 0, arrivedBytes, 0, arrivedBytes.length);
                                     final String data = new String(arrivedBytes, "US-ASCII"); // Decode from bytes to string
                                     generalBufferPosition = 0;
+                                    //Toast.makeText(getContext(), ""+i, Toast.LENGTH_SHORT).show();
 
                                     try{
                                         ForStop=Double.parseDouble(data);
@@ -397,6 +404,9 @@ public class ActionControlFragment extends Fragment {
                                         public void run() {
 
                                             dataTW.setText(String.valueOf(ForStop)); // Print on screen
+                                            int gg=(int) ForStop.intValue();
+                                            progressBar.setProgress(gg);
+
                                         }
                                     });
                                 }
