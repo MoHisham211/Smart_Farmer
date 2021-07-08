@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,7 +65,7 @@ public class CommentFragment extends Fragment {
     TextView love,share;
     //
     EditText comment;
-    ImageView send;
+    ImageView send,back;
     FirebaseFirestore db ;
     ProgressDialog progressDialog;
     private DatabaseReference CommentRef;
@@ -83,6 +84,7 @@ public class CommentFragment extends Fragment {
         likesRef= FirebaseDatabase.getInstance().getReference().child("Likes");
         postID=getArguments().getString("PostId");
         postImage=view.findViewById(R.id.Image);
+        back=view.findViewById(R.id.back);
         userPost=view.findViewById(R.id.postProfile);
         namePost=view.findViewById(R.id.postName);
         title=view.findViewById(R.id.title);
@@ -100,6 +102,12 @@ public class CommentFragment extends Fragment {
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_commentFragment_to_homeFragment);
+            }
+        });
 
         loadPostInfo(postID);
         checkUserStatus();

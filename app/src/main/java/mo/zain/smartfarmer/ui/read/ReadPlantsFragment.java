@@ -35,11 +35,15 @@ public class ReadPlantsFragment extends Fragment implements PlantsAdapter.MySetO
 
         String valueChoose = getArguments().getString("CHOOSE").toString();
 
+        // setup to recycleview to show data about plants
         PlantsAdapter plantsAdapter = new PlantsAdapter(this,getContext());
         RecyclerView recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setAdapter(plantsAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
+
+        // get suitable data
+        //------------------------------------------------------------------
         if(valueChoose.equals("Plants")) {
             PlantsViewModel plantsViewModel = new ViewModelProvider(getActivity()).get(PlantsViewModel.class);
             plantsViewModel.getPlants();
@@ -79,7 +83,12 @@ public class ReadPlantsFragment extends Fragment implements PlantsAdapter.MySetO
             });
 
         }
-            return view;
+
+        //-------------------------------------------------------------------------------
+
+
+
+        return view;
     }
 
 

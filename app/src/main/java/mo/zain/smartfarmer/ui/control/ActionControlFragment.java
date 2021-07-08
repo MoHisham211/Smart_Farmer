@@ -8,7 +8,9 @@ import android.bluetooth.BluetoothSocket;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -16,21 +18,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.shashank.sony.fancytoastlib.FancyToast;
+
 import java.io.IOException;
 import java.util.UUID;
 
 import mo.zain.smartfarmer.R;
+import mo.zain.smartfarmer.authentication.LoginActivity;
+import mo.zain.smartfarmer.notification.NotificationHelper;
 
 
 public class ActionControlFragment extends Fragment {
 
     // Widgets
-    public Button On, Off,btnDis;
+    public Button On, Off,btnDis,Automatic,Manual;
     public TextView dataTW;
     public String address = null;
 
@@ -48,6 +56,10 @@ public class ActionControlFragment extends Fragment {
 
     Double ForStop;
     ToggleButton aSwitch;
+    boolean notification=false;
+    boolean flag=false;
+    LinearLayout linearLayout4;
+    ImageView back;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,10 +70,40 @@ public class ActionControlFragment extends Fragment {
         btnDis = view.findViewById(R.id.dis_btn);
         dataTW = view.findViewById(R.id.TW_data);
         On = view.findViewById(R.id.on_btn);
-        aSwitch=view.findViewById(R.id.switch1);
+        back=view.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_actionControlFragment_to_controlFragment);
+
+            }
+        });
+        Manual=view.findViewById(R.id.Manual);
+        linearLayout4=view.findViewById(R.id.linearLayout4);
+        new ConnectBT().execute(); // Connection class
+        Manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Manual.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.myGreen));
+                Automatic.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.myGray));
+                linearLayout4.setVisibility(View.VISIBLE);
+                beginManualListenForData();
+
+            }
+        });
+        Automatic=view.findViewById(R.id.Automatic);
+        Automatic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Manual.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.myGray));
+                Automatic.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.myGreen));
+                linearLayout4.setVisibility(View.GONE);
+                beginListenForData();
+            }
+        });
+
         Off =view.findViewById(R.id.off_btn);
 
-        new ConnectBT().execute(); // Connection class
 
 
         btnDis.setOnClickListener(new View.OnClickListener() {
@@ -87,18 +129,8 @@ public class ActionControlFragment extends Fragment {
                 turnOffLed();   //method to turn off
             }
         });
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    beginListenForData();
-                } else {
 
-                    beginManualListenForData();
-                    //beginListenMainForData();
-                }
-            }
-        });
+
 
         return view;
     }
@@ -136,6 +168,7 @@ public class ActionControlFragment extends Fragment {
     private void disconnect() {
         if (btSocket != null) { // If bluetooth socket is taken then disconnect
             try {
+                turnOffLed();
                 btSocket.close(); // Close bluetooth connection
             }
             catch (IOException e) {
@@ -146,7 +179,8 @@ public class ActionControlFragment extends Fragment {
     }
 
     private void toast(String s) {
-        Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
+        FancyToast.makeText(getContext(),s,FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
+
     }
 
     public void beginListenForData() {
@@ -155,11 +189,9 @@ public class ActionControlFragment extends Fragment {
 
         stopWorker = false;
         generalBufferPosition = 0;
-        generalBuffer = new byte[1024];
+        generalBuffer = new byte[1028];
         workerThread = new Thread(new Runnable() {
             public void run() {
-
-
                 while (!Thread.currentThread().isInterrupted() && !stopWorker) {
                     try {
 
@@ -180,11 +212,12 @@ public class ActionControlFragment extends Fragment {
 
                                     try{
                                         ForStop=Double.parseDouble(data);
-                                        if (ForStop<=700.00)
+                                        if (ForStop<=650.00)
                                         {
                                             turnOffLed();
                                         }else
                                         {
+                                            flag=true;
                                             turnOnLed();
                                         }
 
@@ -215,11 +248,10 @@ public class ActionControlFragment extends Fragment {
                 }
             }
         });
-        if (ManualThread!=null)
-        {
-            ManualThread.interrupt();
-        }
 
+//
+        if (workerThread!=null)
+            ManualThread.interrupt();
         workerThread.start();
     }
 
@@ -261,7 +293,50 @@ public class ActionControlFragment extends Fragment {
             else {
                 toast("Connected.");
                 beginManualListenForData();
+                isBTConnected = true;
+            }
+            progress.dismiss();
+        }
+    }
 
+    private class ConnectBTM extends AsyncTask<Void, Void, Void> { // UI thread
+
+        private boolean connectionSuccess = true;
+
+        @Override
+        protected void onPreExecute() {
+            progress = ProgressDialog.show(getContext(), "Connecting...", "Please wait!"); // Connection loading dialog
+        }
+
+        @Override
+        protected Void doInBackground(Void... devices) { // Connect with bluetooth socket
+
+            try {
+
+                if (btSocket == null || !isBTConnected) { // If socket is not taken or device not connected
+                    myBluetooth = BluetoothAdapter.getDefaultAdapter();
+                    BluetoothDevice device = myBluetooth.getRemoteDevice(address); // Connect to the chosen MAC address
+                    btSocket = device.createInsecureRfcommSocketToServiceRecord(myUUID); // This connection is not secure (mitm attacks)
+                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery(); // Discovery process is heavy
+                    btSocket.connect();
+                }
+            }
+            catch (IOException e) {
+                connectionSuccess = false;
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) { // After doInBackground
+            super.onPostExecute(result);
+
+            if (!connectionSuccess) {
+                toast("Connection Failed. Try again.");
+                //finish();
+            }
+            else {
+                toast("Connected.");
+                beginListenForData();
                 isBTConnected = true;
             }
             progress.dismiss();
@@ -274,15 +349,15 @@ public class ActionControlFragment extends Fragment {
 
         stopWorker = false;
         generalBufferPosition = 0;
-        generalBuffer = new byte[1024];
+        generalBuffer = new byte[1028];
         ManualThread = new Thread(new Runnable() {
             public void run() {
 
 
                 while (!Thread.currentThread().isInterrupted()
                         && !stopWorker) {
-                    try {
 
+                    try {
 
                         int bytesAvailable = btSocket.getInputStream().available(); // Received bytes by bluetooth module
 
@@ -297,18 +372,31 @@ public class ActionControlFragment extends Fragment {
                                     System.arraycopy(generalBuffer, 0, arrivedBytes, 0, arrivedBytes.length);
                                     final String data = new String(arrivedBytes, "US-ASCII"); // Decode from bytes to string
                                     generalBufferPosition = 0;
+
                                     try{
                                         ForStop=Double.parseDouble(data);
-                                        turnOffLed();
 
+
+//                                        if (ForStop>=700.00)
+//                                        {
+//
+//                                            if (!notification)
+//                                            {
+//                                                NotificationHelper notificationHelper = new NotificationHelper(getContext());
+//                                                notificationHelper.createNotification("Hi", "You Need To Water Now");
+//                                                notification=true;
+//                                            }else
+//                                            {
+////                                                NotificationHelper notificationHelper = new NotificationHelper(getContext());
+////                                                notificationHelper.createNotification("Hi", "You Need To Water Now");
+//                                            }
+//                                        }
                                     } catch(NumberFormatException ex){
                                     }
-
                                     handler.post(new Runnable() {
                                         public void run() {
 
                                             dataTW.setText(String.valueOf(ForStop)); // Print on screen
-
                                         }
                                     });
                                 }
@@ -323,12 +411,19 @@ public class ActionControlFragment extends Fragment {
                         stopWorker = true;
                     }
                 }
+
             }
         });
+
+//        if (workerThread.isAlive())
+//        {
+//            workerThread.interrupt();
+//        }
+        //workerThread.interrupt();
         if (workerThread!=null)
-        {
             workerThread.interrupt();
-        }
+        if (flag)
+            turnOffLed();
         ManualThread.start();
     }
 

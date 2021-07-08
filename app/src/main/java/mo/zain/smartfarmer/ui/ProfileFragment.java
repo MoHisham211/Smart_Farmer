@@ -72,6 +72,9 @@ public class ProfileFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_profile, container, false);
         imageReference = FirebaseStorage.getInstance().getReference();
         fileRef = null;
+//        findNavController(fragment).navigate(
+//                SignInFragmentDirections.actionSignInFragmentToUserNameFragment());
+
         circleImageView=view.findViewById(R.id.ic_profile);
         right=view.findViewById(R.id.right);
         close=view.findViewById(R.id.descard);
@@ -104,16 +107,7 @@ public class ProfileFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //popBackStack(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                Toast.makeText(getContext(), "5555555555", Toast.LENGTH_SHORT).show();
-
-
-//                getActivity().getFragmentManager().
-//                        beginTransaction().remove(this).commit();
-
-                //Navigation.findNavController(v).navigate(R.id.homeFragment);
-                //getActivity().getFragmentManager().popBackStack();
+                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_homeFragment);
             }
         });
         right.setOnClickListener(new View.OnClickListener() {

@@ -25,12 +25,27 @@
         android:id="@+id/profileFragment"
         android:name="mo.zain.smartfarmer.ui.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            app:launchSingleTop="true"
+            app:popExitAnim="@+id/main_nav_graph"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_profileFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/commentFragment"
         android:name="mo.zain.smartfarmer.ui.CommentFragment"
         android:label="fragment_comment"
-        tools:layout="@layout/fragment_comment" />
+        tools:layout="@layout/fragment_comment" >
+        <action
+            android:id="@+id/action_commentFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:launchSingleTop="true"
+            app:popExitAnim="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/chooseReadFragment"
         android:name="mo.zain.smartfarmer.ui.read.ChooseReadFragment"
@@ -48,5 +63,12 @@
         android:id="@+id/actionControlFragment"
         android:name="mo.zain.smartfarmer.ui.control.ActionControlFragment"
         android:label="fragment_action_control"
-        tools:layout="@layout/fragment_action_control" />
+        tools:layout="@layout/fragment_action_control" >
+        <action
+            app:launchSingleTop="true"
+            app:popExitAnim="@+id/controlFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_actionControlFragment_to_controlFragment"
+            app:destination="@id/controlFragment" />
+    </fragment>
 </navigation>
