@@ -187,10 +187,10 @@ public class ActionControlFragment extends Fragment {
 
     }
 
+    //Automatic
     public void beginListenForData() {
         final Handler handler = new Handler(); // Interacts between this thread and UI thread
         final byte delimiter = 35; // ASCII code for (#) end of transmission
-
         stopWorker = false;
         generalBufferPosition = 0;
         generalBuffer = new byte[1028];
@@ -198,13 +198,10 @@ public class ActionControlFragment extends Fragment {
             public void run() {
                 while (!Thread.currentThread().isInterrupted() && !stopWorker) {
                     try {
-
                         int bytesAvailable = btSocket.getInputStream().available(); // Received bytes by bluetooth module
-
                         if (bytesAvailable > 0) {
                             byte[] packet = new byte[bytesAvailable];
                             btSocket.getInputStream().read(packet);
-
                             for (int i=0; i<bytesAvailable; i++) {
                                 byte b = packet[i];
                                 if (b == delimiter) { // If found a # print on screen
@@ -255,7 +252,6 @@ public class ActionControlFragment extends Fragment {
             }
         });
 
-//
         if (workerThread!=null)
             ManualThread.interrupt();
         workerThread.start();
@@ -349,20 +345,17 @@ public class ActionControlFragment extends Fragment {
         }
     }
 
+    //Manual
     public void beginManualListenForData() {
         final Handler handler = new Handler(); // Interacts between this thread and UI thread
         final byte delimiter = 35; // ASCII code for (#) end of transmission
-
         stopWorker = false;
         generalBufferPosition = 0;
         generalBuffer = new byte[1028];
         ManualThread = new Thread(new Runnable() {
             public void run() {
-
-
                 while (!Thread.currentThread().isInterrupted()
                         && !stopWorker) {
-
                     try {
 
                         int bytesAvailable = btSocket.getInputStream().available(); // Received bytes by bluetooth module
@@ -383,21 +376,6 @@ public class ActionControlFragment extends Fragment {
                                     try{
                                         ForStop=Double.parseDouble(data);
 
-
-//                                        if (ForStop>=700.00)
-//                                        {
-//
-//                                            if (!notification)
-//                                            {
-//                                                NotificationHelper notificationHelper = new NotificationHelper(getContext());
-//                                                notificationHelper.createNotification("Hi", "You Need To Water Now");
-//                                                notification=true;
-//                                            }else
-//                                            {
-////                                                NotificationHelper notificationHelper = new NotificationHelper(getContext());
-////                                                notificationHelper.createNotification("Hi", "You Need To Water Now");
-//                                            }
-//                                        }
                                     } catch(NumberFormatException ex){
                                     }
                                     handler.post(new Runnable() {
@@ -424,12 +402,6 @@ public class ActionControlFragment extends Fragment {
 
             }
         });
-
-//        if (workerThread.isAlive())
-//        {
-//            workerThread.interrupt();
-//        }
-        //workerThread.interrupt();
         if (workerThread!=null)
             workerThread.interrupt();
         if (flag)

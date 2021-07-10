@@ -107,30 +107,20 @@ public class ChooseReadFragment extends Fragment {
 
 
         dateWeather.setText(getDate());
-        weatherViewModel=new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
-        weatherViewModel.getDetialsWeather("31.0106341","30.550334",appID);
+
+        weatherViewModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
+        weatherViewModel.getDetialsWeather(latitude,longitude,appID);
+
         weatherViewModel.weatherMutableLiveData.observe(getActivity(), new Observer<WeatherModel>() {
             @Override
             public void onChanged(WeatherModel weatherModel) {
-                Toast.makeText(getContext(), ""+weatherModel.getName(), Toast.LENGTH_SHORT).show();
+                city_weather.setText(weatherModel.getName());
+                temp_weather.setText(Math.round(weatherModel.getMain().getTemp()-272.15)+" ℃");
+                max_temp.setText(Math.round(weatherModel.getMain().getTempMax()-272.15)+" ℃");
+                low_temp.setText(Math.round(weatherModel.getMain().getTempMin()-272.15)+" ℃");
+
             }
         });
-//        weatherViewModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
-//        weatherViewModel.getDetialsWeather("31.0106341","30.550334",appID);
-//
-//        weatherViewModel.weatherMutableLiveData.observe(getActivity(), new Observer<WeatherModel>() {
-//            @Override
-//            public void onChanged(WeatherModel weatherModel) {
-//
-//
-//                Toast.makeText(getContext(), "555555555", Toast.LENGTH_SHORT).show();
-//                city_weather.setText(weatherModel.getName());
-//                temp_weather.setText(Math.round(weatherModel.getMain().getTemp()-272.15)+" ℃");
-//                max_temp.setText(Math.round(weatherModel.getMain().getTempMax()-272.15)+" ℃");
-//                low_temp.setText(Math.round(weatherModel.getMain().getTempMin()-272.15)+" ℃");
-//
-//            }
-//        });
 
         return view;
     }

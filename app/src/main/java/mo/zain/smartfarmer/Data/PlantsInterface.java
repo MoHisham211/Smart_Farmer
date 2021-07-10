@@ -15,7 +15,6 @@ public interface PlantsInterface {
     @GET("Price.json")
     Observable<List<PlantPrice>> getPlantPrice();
 
-
     @GET("Fruits.json")
     Observable<List<Plant>> getFruits();
 
