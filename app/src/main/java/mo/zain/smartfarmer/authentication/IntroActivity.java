@@ -202,6 +202,7 @@ public class IntroActivity extends AppCompatActivity {
                                         .child(userid);//.child(userid)
                                 HashMap<String,String> hashMap=new HashMap<>();
                                 hashMap.put("Email",email);
+                                hashMap.put("onlineStatus","online");
                                 hashMap.put("UserName",userName);
                                 hashMap.put("Mobile","");
                                 hashMap.put("id",userid);
@@ -281,6 +282,7 @@ public class IntroActivity extends AppCompatActivity {
             hashMap.put("UserName",user.getDisplayName());
             hashMap.put("id",userid);
             hashMap.put("Mobile","");
+            hashMap.put("onlineStatus","online");
             hashMap.put("imageURL",user.getPhotoUrl().toString());
             reference.setValue(hashMap);
             startActivity(new Intent(IntroActivity.this,MainActivity.class));

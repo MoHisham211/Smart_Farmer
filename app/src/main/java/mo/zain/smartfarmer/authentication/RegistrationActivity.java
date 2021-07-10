@@ -161,6 +161,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 HashMap<String,String> hashMap=new HashMap<>();
                                 hashMap.put("email",Email);
                                 hashMap.put("id",userid);
+                                hashMap.put("onlineStatus","online");
                                 hashMap.put("username",UserName);
                                 hashMap.put("phone",Phone);
                                 hashMap.put("imageURL","");
@@ -195,6 +196,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 hashMap.put("id",userid);
                                 hashMap.put("companyname",UserName);
                                 hashMap.put("phone",Phone);
+                                hashMap.put("onlineStatus","online");
                                 hashMap.put("city",City);
                                 hashMap.put("imageURL","");
                                 reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

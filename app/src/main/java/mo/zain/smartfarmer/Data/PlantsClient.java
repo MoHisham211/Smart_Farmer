@@ -6,6 +6,7 @@ import java.util.List;
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Observable;
 import mo.zain.smartfarmer.model.Plant;
+import mo.zain.smartfarmer.model.PlantPrice;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -41,4 +42,8 @@ public class PlantsClient {
     public Observable<List<Plant>> getVegetables(){
         return plantsInterface.getVegetables();
     }
+    public Observable<List<PlantPrice>> getPlantPrice(){
+        return plantsInterface.getPlantPrice();
+    }
+
 }

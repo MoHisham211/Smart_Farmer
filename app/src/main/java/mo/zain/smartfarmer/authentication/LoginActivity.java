@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -51,57 +53,63 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import mo.zain.smartfarmer.CompanyActivity;
 import mo.zain.smartfarmer.MainActivity;
 import mo.zain.smartfarmer.R;
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button btnLogin;
-    private TextInputEditText email,password;
-    String txtEmail,txtPassword;
+    private TextInputEditText email, password;
+    String txtEmail, txtPassword;
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
-    TextView forgetPass,toSignUp;
+    TextView forgetPass, toSignUp;
     private AlertDialog dialogForgetPassword;
     ProgressDialog mDialog;
-    private ImageView facebook,google;
+    private ImageView facebook, google;
     GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 100;
     private CallbackManager callbackManager;
     private FirebaseAuth.AuthStateListener authStateListener;
     private AccessTokenTracker accessTokenTracker;
+    private String WHO_REGISTER = "User";
+    private TextInputLayout textInputLayout1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        email=findViewById(R.id.email_login);
-        password=findViewById(R.id.password_login);
-        btnLogin=findViewById(R.id.btnLogin);
-        forgetPass=findViewById(R.id.forget);
-        facebook=findViewById(R.id.imageFacebook);
-        google=findViewById(R.id.imageGoogle);
-        toSignUp=findViewById(R.id.toSignUp);
+
+        textInputLayout1=findViewById(R.id.textInputLayout1);
+        email = findViewById(R.id.email_login);
+        password = findViewById(R.id.password_login);
+        btnLogin = findViewById(R.id.btnLogin);
+        forgetPass = findViewById(R.id.forget);
+        facebook = findViewById(R.id.imageFacebook);
+        google = findViewById(R.id.imageGoogle);
+        toSignUp = findViewById(R.id.toSignUp);
         toSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
                 finish();
             }
         });
-        firebaseAuth=FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         mDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog=new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Logging in");
         progressDialog.setMessage("Please wait while we check your credentials");
         progressDialog.setCanceledOnTouchOutside(false);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        callbackManager=CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient= GoogleSignIn.getClient(this,gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         google.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,24 +149,21 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        authStateListener=new FirebaseAuth.AuthStateListener() {
+        authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull @NotNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user=firebaseAuth.getCurrentUser();
-                if (user!=null)
-                {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
                     UpdateUI(user);
-                } else
-                {
+                } else {
                     UpdateUI(null);
                 }
             }
         };
-        accessTokenTracker=new AccessTokenTracker() {
+        accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if (currentAccessToken==null)
-                {
+                if (currentAccessToken == null) {
                     firebaseAuth.signOut();
                 }
             }
@@ -173,33 +178,37 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtEmail=email.getText().toString();
-                txtPassword=password.getText().toString();
-                if (txtEmail.equals(""))
-                {
+                txtEmail = email.getText().toString();
+                txtPassword = password.getText().toString();
+                if (txtEmail.equals("")) {
                     email.setError("Email is Required.");
                     email.setFocusable(true);
-                }else if (txtPassword.equals(""))
-                {
+                } else if (txtPassword.equals("")) {
                     password.setError("Password is Required.");
                     password.setFocusable(true);
-                }else {
+                } else {
                     progressDialog.show();
-                    firebaseAuth.signInWithEmailAndPassword(txtEmail,txtPassword)
+                    firebaseAuth.signInWithEmailAndPassword(txtEmail, txtPassword)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful())
-                                    {
-                                        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        progressDialog.dismiss();
-                                        finish();
-                                    }else
-                                    {
-                                        progressDialog.show();
-                                        FancyToast.makeText(LoginActivity.this,"Sign Up Failed !!",FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                                    if (task.isSuccessful()) {
+                                        if (WHO_REGISTER.equals("User")) {
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            progressDialog.dismiss();
+                                            finish();
+                                        } else if (WHO_REGISTER.equals("Company")) {
+                                            Intent intent = new Intent(getApplicationContext(), CompanyActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            progressDialog.dismiss();
+                                            finish();
+                                        } else {
+                                            progressDialog.show();
+                                            FancyToast.makeText(LoginActivity.this, "Sign Up Failed !!", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                                        }
                                     }
                                 }
                             });
@@ -208,10 +217,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,resultCode,data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -226,6 +236,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential =
                 GoogleAuthProvider.getCredential(idToken, null);
@@ -237,31 +248,32 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            if (task.getResult().getAdditionalUserInfo().isNewUser()){
+                            if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                                 DatabaseReference reference;
                                 assert user != null;
-                                String email=user.getEmail();
-                                String userid=user.getUid();
-                                String userName=user.getDisplayName();
-                                String url=user.getPhotoUrl().toString();
-                                reference= FirebaseDatabase.getInstance()
+                                String email = user.getEmail();
+                                String userid = user.getUid();
+                                String userName = user.getDisplayName();
+                                String url = user.getPhotoUrl().toString();
+                                reference = FirebaseDatabase.getInstance()
                                         .getReference("User")
                                         .child(userid);//.child(userid)
-                                HashMap<String,String> hashMap=new HashMap<>();
-                                hashMap.put("Email",email);
-                                hashMap.put("UserName",userName);
-                                hashMap.put("Mobile","");
-                                hashMap.put("id",userid);
-                                hashMap.put("imageURL",url);
+                                HashMap<String, String> hashMap = new HashMap<>();
+                                hashMap.put("Email", email);
+                                hashMap.put("UserName", userName);
+                                hashMap.put("onlineStatus","online");
+                                hashMap.put("Mobile", "");
+                                hashMap.put("id", userid);
+                                hashMap.put("imageURL", url);
                                 reference.setValue(hashMap);
-                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 //progressDialog.dismiss();
                                 finish();
-                            }else {
-                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            } else {
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 //progressDialog.dismiss();
                                 finish();
@@ -270,90 +282,86 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             //Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            FancyToast.makeText(LoginActivity.this,"Failed..."+task.getException().getMessage(),FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                            FancyToast.makeText(LoginActivity.this, "Failed..." + task.getException().getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                FancyToast.makeText(LoginActivity.this,""+e.getMessage(),FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                FancyToast.makeText(LoginActivity.this, "" + e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             }
         });
 
     }
-    private void handleFacebookToken(AccessToken token)
-    {
 
-        AuthCredential credential= FacebookAuthProvider.getCredential(token.getToken());
+    private void handleFacebookToken(AccessToken token) {
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                if (task.isSuccessful())
-                {
-                    FirebaseUser user=firebaseAuth.getCurrentUser();
+                if (task.isSuccessful()) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
                     UpdateUI(user);
-                }else {
-                    FancyToast.makeText(LoginActivity.this,""+task.getException().getMessage(),FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                } else {
+                    FancyToast.makeText(LoginActivity.this, "" + task.getException().getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
                     //UpdateUI(null);
                 }
             }
         });
     }
-    private void UpdateUI(FirebaseUser user)
-    {
-        if (user !=null)
-        {
-            DatabaseReference reference;
-            String userid=user.getUid();
 
-            reference= FirebaseDatabase.getInstance()
+    private void UpdateUI(FirebaseUser user) {
+        if (user != null) {
+            DatabaseReference reference;
+            String userid = user.getUid();
+
+            reference = FirebaseDatabase.getInstance()
                     .getReference("User")
                     .child(userid);//.child(userid)
-            HashMap<String,String> hashMap=new HashMap<>();
-            hashMap.put("Email","");
-            hashMap.put("UserName",user.getDisplayName());
-            hashMap.put("id",userid);
-            hashMap.put("Mobile","");
-            hashMap.put("imageURL",user.getPhotoUrl().toString());
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("Email", "");
+            hashMap.put("UserName", user.getDisplayName());
+            hashMap.put("id", userid);
+            hashMap.put("onlineStatus","online");
+            hashMap.put("Mobile", "");
+            hashMap.put("imageURL", user.getPhotoUrl().toString());
             reference.setValue(hashMap);
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
     }
+
     @Override
     protected void onStop() {
         super.onStop();
-        if (authStateListener!=null)
-        {
+        if (authStateListener != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
 
-    private void showForgetDialog()
-    {
-        if (dialogForgetPassword==null)
-        {
-            AlertDialog.Builder builder=new AlertDialog.Builder(LoginActivity.this);
-            View view= LayoutInflater.from(this).inflate(
+    private void showForgetDialog() {
+        if (dialogForgetPassword == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+            View view = LayoutInflater.from(this).inflate(
                     R.layout.layout_forget_password,
-                    (ViewGroup)findViewById(R.id.layoutAddUrlContainer)
+                    (ViewGroup) findViewById(R.id.layoutAddUrlContainer)
             );
             builder.setView(view);
-            dialogForgetPassword=builder.create();
-            if (dialogForgetPassword.getWindow()!=null){
+            dialogForgetPassword = builder.create();
+            if (dialogForgetPassword.getWindow() != null) {
                 dialogForgetPassword.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             }
-            final EditText inputLink=view.findViewById(R.id.layout);
+            final EditText inputLink = view.findViewById(R.id.layout);
             inputLink.requestFocus();
             view.findViewById(R.id.textAdd).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (inputLink.getText().toString().trim().equals("")){
-                        FancyToast.makeText(LoginActivity.this,"Enter Your Email",FancyToast.LENGTH_LONG, FancyToast.ERROR,false).show();
-                    }else if (!Patterns.EMAIL_ADDRESS.matcher(inputLink.getText().toString().trim()).matches()){
-                        FancyToast.makeText(LoginActivity.this,"Incorrect Email",FancyToast.LENGTH_LONG, FancyToast.ERROR,false).show();
-                    }else
-                    {
+                    if (inputLink.getText().toString().trim().equals("")) {
+                        FancyToast.makeText(LoginActivity.this, "Enter Your Email", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                    } else if (!Patterns.EMAIL_ADDRESS.matcher(inputLink.getText().toString().trim()).matches()) {
+                        FancyToast.makeText(LoginActivity.this, "Incorrect Email", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                    } else {
                         beginRecovery(inputLink.getText().toString());
                         dialogForgetPassword.dismiss();
                     }
@@ -368,6 +376,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         dialogForgetPassword.show();
     }
+
     private void beginRecovery(String email) {
         mDialog.setMessage("Sending Email");
         mDialog.show();
@@ -375,11 +384,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            FancyToast.makeText(LoginActivity.this,"Send Email Done!!",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+                        if (task.isSuccessful()) {
+                            FancyToast.makeText(LoginActivity.this, "Send Email Done!!", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
                             mDialog.dismiss();
-                        }else {
-                            FancyToast.makeText(LoginActivity.this,"Password setting failed, please try again",FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                        } else {
+                            FancyToast.makeText(LoginActivity.this, "Password setting failed, please try again", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
                             mDialog.dismiss();
                         }
                     }
@@ -387,9 +396,28 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 mDialog.dismiss();
-                FancyToast.makeText(LoginActivity.this,""+e.getMessage(),FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                FancyToast.makeText(LoginActivity.this, "" + e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             }
         });
     }
 
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch (view.getId()) {
+            case R.id.user:
+                if (checked) {
+
+                    WHO_REGISTER = "User";
+                }
+                return;
+            case R.id.company:
+                if (checked) {
+
+                    WHO_REGISTER = "Company";
+                }
+                return;
+        }
+    }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/companyHomeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/chooseReadFragment"
+        android:icon="@drawable/ic_read"
+        android:title="Read" />
+
+    <item
+        android:id="@+id/otherCompanyFragment"
+        android:icon="@drawable/ic_company"
+        android:title="company" />
+    <item
+        android:id="@+id/priceFragment"
+        android:icon="@drawable/ic_price"
+        android:title="Price" />
+
+    <item
+        android:id="@+id/controlFragment"
+        android:icon="@drawable/ic_control"
+        android:title="Control" />
+
+
+
+</menu>

@@ -1,16 +1,16 @@
 package mo.zain.smartfarmer.ui;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,25 +30,27 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.zain.smartfarmer.R;
 import mo.zain.smartfarmer.adpter.CompanyListAdapter;
+import mo.zain.smartfarmer.adpter.UserListAdapter;
 import mo.zain.smartfarmer.model.CompanyModel;
+import mo.zain.smartfarmer.model.UserModel;
 
 
-public class CompanyFragment extends Fragment {
+public class OtherCompanyFragment extends Fragment {
 
-    List<CompanyModel> companyModels;
-    CompanyListAdapter adapter;
+    List<UserModel> companyModels;
+    UserListAdapter adapter;
     RecyclerView recyclerView;
     FirebaseAuth firebaseAuth;
     String name,email,phone,imageProfile;
     CircleImageView profileImage;
     TextView profileName;
     DatabaseReference df;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_company, container, false);
+        View view= inflater.inflate(R.layout.fragment_other_company, container, false);
+
         firebaseAuth=FirebaseAuth.getInstance();
         profileImage=view.findViewById(R.id.profileImage);
         profileName=view.findViewById(R.id.profileName);
@@ -63,7 +65,7 @@ public class CompanyFragment extends Fragment {
     private void loadInfo()
     {
         df= FirebaseDatabase.getInstance()
-                .getReference("User")
+                .getReference("Company")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         Query query=df;
         query.addValueEventListener(new ValueEventListener() {
@@ -71,14 +73,14 @@ public class CompanyFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Map<String, String> map = (Map) snapshot.getValue();
 
-                profileName.setText(map.get("UserName"));
+                profileName.setText(map.get("companyname"));
                 if (!map.get("imageURL").equals(""))
                     Glide.with(getContext()).load(map.get("imageURL")).into(profileImage);
                 else
                     Glide.with(getContext()).load(R.drawable.ic_profile).into(profileImage);
-                email=map.get("Email");
-                name=map.get("UserName");
-                phone=map.get("Mobile");
+                email=map.get("email");
+                name=map.get("companyname");
+                phone=map.get("phone");
                 imageProfile=map.get("imageURL");
 
             }
@@ -95,17 +97,16 @@ public class CompanyFragment extends Fragment {
         final FirebaseUser firebaseUser=
                 FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference= FirebaseDatabase.getInstance()
-                .getReference("Company");
+                .getReference("User");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 companyModels.clear();
                 for(DataSnapshot ds:snapshot.getChildren())
                 {
-                    CompanyModel companyModel =ds.getValue(CompanyModel.class);
+                    UserModel companyModel =ds.getValue(UserModel.class);
                     assert companyModel !=null;
                     assert firebaseUser !=null;
-                   // Toast.makeText(getContext(), ""+companyModel.getId(), Toast.LENGTH_SHORT).show();
                     if(!companyModel.getId().equals(firebaseUser.getUid()))
                     {
                         companyModels.add(companyModel);
@@ -113,7 +114,7 @@ public class CompanyFragment extends Fragment {
                     }
 
                 }
-                adapter =new CompanyListAdapter(getContext(), companyModels);
+                adapter =new UserListAdapter(getContext(), companyModels);
                 recyclerView.setAdapter(adapter);
             }
 
