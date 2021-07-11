@@ -21,11 +21,12 @@
                 android:layout_gravity="left"
                 android:layout_weight="0.9">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profileImage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:padding="4dp"
+                    app:shapeAppearanceOverlay="@style/IV_Circle"
                     android:src="@drawable/ic_profile" />
 
                 <TextView
@@ -38,7 +39,7 @@
                     android:gravity="center"
                     tools:text="UserName"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black" />
+                    android:textColor="#0E2A47" />
             </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +41,7 @@ import mo.zain.smartfarmer.model.Plant;
 
 public class ChatFragment extends Fragment {
 
-    CircleImageView profile,circleImageView;
+    ShapeableImageView profile;
     TextView Name,status;
     DatabaseReference df;
     String id,hisImage;
@@ -46,6 +49,7 @@ public class ChatFragment extends Fragment {
     RecyclerView recyclerView;
     List<ChatModel> chatModels=new ArrayList<>();;
     ChatAdapter adapterChat;
+    ImageView back,circleImageView;
 
 
     @Override
@@ -63,12 +67,27 @@ public class ChatFragment extends Fragment {
         profile=view.findViewById(R.id.profileImage);
         Name=view.findViewById(R.id.profileName);
         editTextTextPersonName=view.findViewById(R.id.editTextTextPersonName);
+        back=view.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_chatFragment_to_companyFragment);
+
+            }
+        });
         circleImageView=view.findViewById(R.id.circleImageView);
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage(editTextTextPersonName.getText().toString());
-                editTextTextPersonName.setText("");
+                if (!editTextTextPersonName.getText().equals(""))
+                {
+                    sendMessage(editTextTextPersonName.getText().toString());
+                    editTextTextPersonName.setText("");
+                }else
+                {
+                    FancyToast.makeText(getContext(),"Enter Your Messsage",FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                }
+
             }
         });
         loadInfo();

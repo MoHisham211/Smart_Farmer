@@ -96,13 +96,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyHolder> {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder=new AlertDialog.Builder(context);
-//                builder.setTitle("Delete");
                 builder.setMessage("Delete message?");
                 builder
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
                         deleteMessage(position);
                     }
                 });

@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -62,7 +63,7 @@ import mo.zain.smartfarmer.model.Post;
 
 public class HomeFragment extends Fragment {
 
-    CircleImageView profileImage;
+    ShapeableImageView profileImage;
     ImageView addPost;
     TextView profileName;
     FirebaseUser firebaseUser;
@@ -118,6 +119,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         toProfile=view.findViewById(R.id.toProfile);
+        loadInfo();
         toProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +132,7 @@ public class HomeFragment extends Fragment {
                 openBottomSheet();
             }
         });
-        loadInfo();
+
         loadPosts();
         return view;
     }

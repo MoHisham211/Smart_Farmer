@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -11,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +32,17 @@ public class ReadPlantsFragment extends Fragment implements PlantsAdapter.MySetO
 
     public static String keyPlant = "EXTRA_DATA_PLANT";
     List<Plant> plantList = new ArrayList<>();
+    ShimmerFrameLayout shimmerFrameLayout;
+    LinearLayout linerShimmer;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_read_plants, container, false);
 
         String valueChoose = getArguments().getString("CHOOSE").toString();
+        shimmerFrameLayout=view.findViewById(R.id.shimmer);//null null
+//        shimmerFrameLayout.setShimmer(shimmerFrameLayout);
+        linerShimmer=view.findViewById(R.id.linerShimmer);
 
         // setup to recycleview to show data about plants
         PlantsAdapter plantsAdapter = new PlantsAdapter(this,getContext());
@@ -53,6 +62,10 @@ public class ReadPlantsFragment extends Fragment implements PlantsAdapter.MySetO
 
                     plantList = plants;
                     plantsAdapter.setList(plants);
+                    //shimmerFrameLayout.setVisibility(View.GONE);
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                    linerShimmer.setVisibility(View.GONE);
+
                 }
             });
         }
@@ -66,6 +79,10 @@ public class ReadPlantsFragment extends Fragment implements PlantsAdapter.MySetO
 
                     plantList = fruits;
                     plantsAdapter.setList(plantList);
+                   // shimmerFrameLayout.setVisibility(View.GONE);
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                    linerShimmer.setVisibility(View.GONE);
+
                 }
             });
 
@@ -79,6 +96,10 @@ public class ReadPlantsFragment extends Fragment implements PlantsAdapter.MySetO
 
                     plantList = vegetables;
                     plantsAdapter.setList(plantList);
+                    //shimmerFrameLayout.setVisibility(View.GONE);
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                    linerShimmer.setVisibility(View.GONE);
+
                 }
             });
 
@@ -100,6 +121,7 @@ public class ReadPlantsFragment extends Fragment implements PlantsAdapter.MySetO
         Navigation.findNavController(view).navigate(R.id.detialsPlantFragment,bundle);
 
     }
+
 
 
 

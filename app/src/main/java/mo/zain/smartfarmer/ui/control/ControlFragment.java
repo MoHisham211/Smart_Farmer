@@ -64,6 +64,7 @@ public class ControlFragment extends Fragment {
 
     private void pairedDevicesList() {
         pairedDevices = myBluetooth.getBondedDevices();
+
         ArrayList list = new ArrayList();
 
         if (pairedDevices.size() > 0) // ArrayList with name and MAC address of paired devices

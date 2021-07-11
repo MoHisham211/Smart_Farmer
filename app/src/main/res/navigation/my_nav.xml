@@ -75,5 +75,12 @@
         android:id="@+id/chatFragment"
         android:name="mo.zain.smartfarmer.ui.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            app:launchSingleTop="true"
+            app:popExitAnim="@+id/companyFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_chatFragment_to_companyFragment"
+            app:destination="@id/companyFragment" />
+    </fragment>
 </navigation>

@@ -7,6 +7,15 @@ import java.io.Serializable;
 
 public class Plant implements Serializable {
 
+    @SerializedName("plant_category")
+    @Expose
+    private String plantCategory;
+    @SerializedName("plant_vedio")
+    @Expose
+    private String plantVideo;
+    @SerializedName("plant_source")
+    @Expose
+    private String plantSource;
     @SerializedName("plant_name")
     @Expose
     private String plantName;
@@ -85,4 +94,27 @@ public class Plant implements Serializable {
         this.plantImg = plantImg;
     }
 
+    public String getPlantCategory() {
+        return plantCategory;
+    }
+
+    public void setPlantCategory(String plantCategory) {
+        this.plantCategory = plantCategory;
+    }
+
+    public String getPlantVideo() {
+        return plantVideo;
+    }
+
+    public void setPlantVideo(String plantVideo) {
+        this.plantVideo = plantVideo;
+    }
+
+    public String getPlantSource() {
+        return plantSource;
+    }
+
+    public void setPlantSource(String plantSource) {
+        this.plantSource = plantSource;
+    }
 }

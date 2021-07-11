@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    android:elevation="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:background="#DFDFDF"
+            android:id="@+id/img_plant"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_fruits"
+            app:shapeAppearanceOverlay="@style/IV_Circle"
+            app:strokeColor="@color/myGreen"
+            app:strokeWidth="1dp"
+            android:scaleType="fitXY" />
+        <View
+            android:layout_marginTop="8dp"
+            android:background="#DFDFDF"
+            android:id="@+id/name_plant"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="name"
+            android:fontFamily="@font/ubuntu_regular"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+        <View
+            android:background="#DFDFDF"
+
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:text="More"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textColor="@color/white"
+            android:layout_margin="8dp" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:background="#DFDFDF"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_fruits"
+                app:shapeAppearanceOverlay="@style/IV_Circle"
+                app:strokeColor="@color/myGreen"
+                app:strokeWidth="1dp"
+                android:scaleType="fitXY" />
+            <View
+                android:layout_marginTop="8dp"
+                android:background="#DFDFDF"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:text="name"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textStyle="bold"
+                android:textSize="24sp" />
+            <View
+                android:background="#DFDFDF"
+
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:text="More"
+                android:fontFamily="@font/ubuntu_bold"
+                android:textColor="@color/white"
+                android:layout_margin="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</com.facebook.shimmer.ShimmerFrameLayout>
+

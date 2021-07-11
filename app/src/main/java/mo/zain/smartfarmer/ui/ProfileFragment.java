@@ -51,7 +51,7 @@ import mo.zain.smartfarmer.authentication.IntroActivity;
 public class ProfileFragment extends Fragment {
 
     CircleImageView circleImageView;
-    ImageView right,close,back;
+    ImageView right,close,back,logout;
     TextView edit;
     DatabaseReference df;
     Button editBtn;
@@ -78,6 +78,7 @@ public class ProfileFragment extends Fragment {
         circleImageView=view.findViewById(R.id.ic_profile);
         right=view.findViewById(R.id.right);
         close=view.findViewById(R.id.descard);
+        logout=view.findViewById(R.id.logout);
         edit=view.findViewById(R.id.edit);
         editBtn=view.findViewById(R.id.editBtn);
         userNameEt=view.findViewById(R.id.userNameEt);
@@ -86,6 +87,12 @@ public class ProfileFragment extends Fragment {
         imageEdit=view.findViewById(R.id.imageEdit);
         back=view.findViewById(R.id.back);
         progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogFun();
+            }
+        });
 
         imageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +103,11 @@ public class ProfileFragment extends Fragment {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 right.setVisibility(View.VISIBLE);
                 close.setVisibility(View.VISIBLE);
                 back.setVisibility(View.GONE);
+                logout.setVisibility(View.GONE);
                 edit.setText("Edit Profile");
             }
         });
@@ -115,6 +124,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 updateProfile();
+                logout.setVisibility(View.VISIBLE);
                 right.setVisibility(View.GONE);
                 close.setVisibility(View.GONE);
                 back.setVisibility(View.VISIBLE);
@@ -127,6 +137,7 @@ public class ProfileFragment extends Fragment {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logout.setVisibility(View.VISIBLE);
                 right.setVisibility(View.GONE);
                 close.setVisibility(View.GONE);
                 back.setVisibility(View.VISIBLE);
@@ -153,7 +164,8 @@ public class ProfileFragment extends Fragment {
                 emailEt.setText(map.get("Email"));
                 mobileEt.setText(map.get("Mobile"));
                 if (!map.get("imageURL").equals(""))
-                    Glide.with(getContext()).load(map.get("imageURL")).into(circleImageView);
+                    Glide.with(getContext()).
+                            load(map.get("imageURL")).into(circleImageView);
                 else
                     Glide.with(getContext()).load(R.drawable.ic_profile).into(circleImageView);
                 email=map.get("Email");

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +41,7 @@ public class CompanyFragment extends Fragment {
     RecyclerView recyclerView;
     FirebaseAuth firebaseAuth;
     String name,email,phone,imageProfile;
-    CircleImageView profileImage;
+    ShapeableImageView profileImage;
     TextView profileName;
     DatabaseReference df;
 

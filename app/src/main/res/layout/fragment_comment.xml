@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:textColor="#0E2A47"
                 android:fontFamily="@font/ubuntu_bold"
                 android:gravity="center"
                 android:text="Post Details"
@@ -84,6 +85,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/ubuntu_medium"
                         android:gravity="center_vertical"
+                        android:textColor="#0E2A47"
                         tools:text="Mo.Hisham" />
 
                     <TextView
@@ -111,6 +113,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/ubuntu_bold"
             android:padding="4dp"
+            android:textColor="#0E2A47"
             android:textStyle="bold"
             tools:text="Title" />
 
@@ -125,7 +128,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/Image"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
@@ -154,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/love_like_heart_icon"
+                android:drawableLeft="@drawable/ic_like"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/ubuntu_regular"
                 android:padding="2dp" />
@@ -167,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/share_turn_icon"
+                android:drawableLeft="@drawable/ic_share"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/ubuntu_regular"
                 android:padding="2dp" />
@@ -177,7 +180,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="8dp"
-            android:drawableLeft="@drawable/comment_icon"
+            android:drawableLeft="@drawable/ic_comment"
             android:drawablePadding="15dp"
             android:gravity="center_vertical"
             android:text="Comments"
@@ -203,7 +206,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="#FBFBFB"
+        android:backgroundTint="#F3F3F3"
         android:background="@drawable/background_et"
         android:drawableLeft="@drawable/keyboard_desktop"
         android:drawablePadding="8dp"
@@ -218,13 +221,13 @@
         app:layout_constraintEnd_toStartOf="@+id/circleImageView"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/circleImageView"
-        android:layout_width="35dp"
+        android:layout_width="25dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:src="@drawable/plane_icon"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/ic_send"
         app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName" />

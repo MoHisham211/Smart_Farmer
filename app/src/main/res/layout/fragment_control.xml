@@ -28,6 +28,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/ubuntu_bold"
                 android:gravity="center"
+                android:textColor="#0E2A47"
                 android:text="Connect First"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />

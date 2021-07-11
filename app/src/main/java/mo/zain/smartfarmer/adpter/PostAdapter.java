@@ -237,7 +237,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 {
                     holder.love.setTextColor(Color.RED);
                     holder.love.setCompoundDrawablesWithIntrinsicBounds(
-                                R.drawable.read_love_icon, //left
+                                R.drawable.ic_like_full, //left
                                 0, //top
                                 0, //right
                                 0 //bottom
@@ -246,7 +246,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                     holder.love.setTextColor(Color.BLACK);
                         holder.love.setCompoundDrawablesWithIntrinsicBounds(
-                                R.drawable.love_like_heart_icon, //left
+                                R.drawable.ic_like, //left
                                 0, //top
                                 0, //right
                                 0 //bottom

@@ -233,7 +233,7 @@ public class CommentFragment extends Fragment {
                 {
                     love.setTextColor(Color.RED);
                     love.setCompoundDrawablesWithIntrinsicBounds(
-                            R.drawable.read_love_icon, //left
+                            R.drawable.ic_like_full, //left
                             0, //top
                             0, //right
                             0 //bottom
@@ -241,7 +241,7 @@ public class CommentFragment extends Fragment {
                 }else {
                     love.setTextColor(Color.BLACK);
                     love.setCompoundDrawablesWithIntrinsicBounds(
-                            R.drawable.love_like_heart_icon, //left
+                            R.drawable.ic_like, //left
                             0, //top
                             0, //right
                             0 //bottom

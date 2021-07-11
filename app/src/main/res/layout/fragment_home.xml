@@ -7,51 +7,53 @@
     tools:context=".ui.HomeFragment">
 
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/toProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_weight="0.9">
 
-            <LinearLayout
-                android:id="@+id/toProfile"
-                android:layout_width="wrap_content"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:layout_weight="0.9">
+                android:padding="4dp"
+                app:strokeColor="@color/white"
+                app:shapeAppearanceOverlay="@style/IV_Circle"
+                android:src="@drawable/ic_profile" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_profile" />
-
-                <TextView
-                    android:id="@+id/profileName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:fontFamily="@font/ubuntu_bold"
-                    android:gravity="center"
-                    tools:text="UserName"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/addPost"
+            <TextView
+                android:id="@+id/profileName"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_weight="0.1"
-                android:padding="5dp"
-                android:src="@drawable/ic_add_plus" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center"
+                tools:text="UserName"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#0E2A47" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/addPost"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_weight="0.1"
+            android:padding="5dp"
+            android:src="@drawable/ic_add_plus" />
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -73,5 +75,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

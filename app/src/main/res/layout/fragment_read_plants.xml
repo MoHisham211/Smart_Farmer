@@ -16,5 +16,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_plant"/>
+    <LinearLayout
+        android:id="@+id/linerShimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <include
+        android:id="@+id/shimmer"
+        layout="@layout/item_plant_shimmer"/>
+        <include
+            android:id="@+id/shimmer"
+            layout="@layout/item_plant_shimmer"/>
+        <include
+            android:id="@+id/shimmer"
+            layout="@layout/item_plant_shimmer"/>
+        <include
+            android:id="@+id/shimmer"
+            layout="@layout/item_plant_shimmer"/>
+        <include
+            android:id="@+id/shimmer"
+            layout="@layout/item_plant_shimmer"/>
+        <include
+            android:id="@+id/shimmer"
+            layout="@layout/item_plant_shimmer"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

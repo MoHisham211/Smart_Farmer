@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:elevation="12dp"
     app:cardCornerRadius="8dp"
-    android:layout_margin="4dp">
+    android:layout_margin="8dp">
     <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
@@ -41,6 +41,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center_vertical"
                         android:fontFamily="@font/ubuntu_medium"
+                        android:textStyle="bold"
+                        android:textColor="#0E2A47"
                         tools:text="Mo.Hisham"/>
                     <TextView
                         android:layout_weight="1"
@@ -53,29 +55,31 @@
                         tools:text="time"/>
                 </LinearLayout>
             </LinearLayout>
-                <ImageView
-                    android:layout_weight="0.1"
-                    android:id="@+id/editPost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/more_icon"
-                    android:layout_gravity="center_vertical|right"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginRight="4dp" />
+            <ImageView
+                android:layout_weight="0.1"
+                android:id="@+id/editPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/more_icon"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="4dp"
             android:background="#D3D3D3"/>
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        tools:text="Title"
-        android:fontFamily="@font/ubuntu_bold"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            tools:text="Title"
+            android:textSize="18sp"
+            android:textColor="#0E2A47"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textStyle="bold"/>
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
@@ -89,7 +93,7 @@
             android:layout_marginBottom="10dp"
             app:riv_corner_radius="20dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic_igallery_google"
+            tools:src="@drawable/ic_fruits"
             android:id="@+id/Image"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
@@ -111,10 +115,10 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:id="@+id/buttonlove"
-                android:textColor="@color/black"
+                android:textColor="#0E2A47"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/love_like_heart_icon"
+                android:drawableLeft="@drawable/ic_like"
                 android:drawablePadding="10dp"
                 android:text="Love"
                 android:fontFamily="@font/ubuntu_regular"
@@ -122,13 +126,13 @@
             <TextView
                 android:padding="2dp"
                 android:layout_weight="1"
-                android:textColor="@color/black"
+                android:textColor="#0E2A47"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:id="@+id/buttoncomment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/comment_icon"
+                android:drawableLeft="@drawable/ic_comment"
                 android:drawablePadding="10dp"
                 tools:text="Comment"
                 android:fontFamily="@font/ubuntu_regular"
@@ -137,12 +141,12 @@
                 android:padding="2dp"
                 android:layout_weight="1"
                 android:id="@+id/buttonShare"
-                android:textColor="@color/black"
+                android:textColor="#0E2A47"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/share_turn_icon"
+                android:drawableLeft="@drawable/ic_share"
                 android:drawablePadding="10dp"
                 tools:text="Share"
                 android:fontFamily="@font/ubuntu_regular"

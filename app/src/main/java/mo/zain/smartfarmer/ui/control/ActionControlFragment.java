@@ -56,7 +56,6 @@ public class ActionControlFragment extends Fragment {
     volatile boolean stopWorker;
 
     Double ForStop;
-    ToggleButton aSwitch;
     boolean notification=false;
     boolean flag=false;
     LinearLayout linearLayout4;
@@ -114,6 +113,7 @@ public class ActionControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 disconnect();
+                Navigation.findNavController(v).navigate(R.id.action_actionControlFragment_to_controlFragment);
             }
         });
 
@@ -301,49 +301,49 @@ public class ActionControlFragment extends Fragment {
         }
     }
 
-    private class ConnectBTM extends AsyncTask<Void, Void, Void> { // UI thread
-
-        private boolean connectionSuccess = true;
-
-        @Override
-        protected void onPreExecute() {
-            progress = ProgressDialog.show(getContext(), "Connecting...", "Please wait!"); // Connection loading dialog
-        }
-
-        @Override
-        protected Void doInBackground(Void... devices) { // Connect with bluetooth socket
-
-            try {
-
-                if (btSocket == null || !isBTConnected) { // If socket is not taken or device not connected
-                    myBluetooth = BluetoothAdapter.getDefaultAdapter();
-                    BluetoothDevice device = myBluetooth.getRemoteDevice(address); // Connect to the chosen MAC address
-                    btSocket = device.createInsecureRfcommSocketToServiceRecord(myUUID); // This connection is not secure (mitm attacks)
-                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery(); // Discovery process is heavy
-                    btSocket.connect();
-                }
-            }
-            catch (IOException e) {
-                connectionSuccess = false;
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) { // After doInBackground
-            super.onPostExecute(result);
-
-            if (!connectionSuccess) {
-                toast("Connection Failed. Try again.");
-                //finish();
-            }
-            else {
-                toast("Connected.");
-                beginListenForData();
-                isBTConnected = true;
-            }
-            progress.dismiss();
-        }
-    }
+//    private class ConnectBTM extends AsyncTask<Void, Void, Void> { // UI thread
+//
+//        private boolean connectionSuccess = true;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            progress = ProgressDialog.show(getContext(), "Connecting...", "Please wait!"); // Connection loading dialog
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... devices) { // Connect with bluetooth socket
+//
+//            try {
+//
+//                if (btSocket == null || !isBTConnected) { // If socket is not taken or device not connected
+//                    myBluetooth = BluetoothAdapter.getDefaultAdapter();
+//                    BluetoothDevice device = myBluetooth.getRemoteDevice(address); // Connect to the chosen MAC address
+//                    btSocket = device.createInsecureRfcommSocketToServiceRecord(myUUID); // This connection is not secure (mitm attacks)
+//                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery(); // Discovery process is heavy
+//                    btSocket.connect();
+//                }
+//            }
+//            catch (IOException e) {
+//                connectionSuccess = false;
+//            }
+//            return null;
+//        }
+//        @Override
+//        protected void onPostExecute(Void result) { // After doInBackground
+//            super.onPostExecute(result);
+//
+//            if (!connectionSuccess) {
+//                toast("Connection Failed. Try again.");
+//                //finish();
+//            }
+//            else {
+//                toast("Connected.");
+//                beginListenForData();
+//                isBTConnected = true;
+//            }
+//            progress.dismiss();
+//        }
+//    }
 
     //Manual
     public void beginManualListenForData() {
@@ -374,7 +374,20 @@ public class ActionControlFragment extends Fragment {
                                     //Toast.makeText(getContext(), ""+i, Toast.LENGTH_SHORT).show();
 
                                     try{
+
                                         ForStop=Double.parseDouble(data);
+                                        if (ForStop>=650)
+                                        {
+                                            if (!notification)
+                                            {
+                                                notification=true;
+                                                NotificationHelper notificationHelper=new NotificationHelper(getContext());
+                                                notificationHelper.createNotification("Smart Farmer","Water Your plants now");
+                                            }
+
+                                        }else {
+                                            notification=false;
+                                        }
 
                                     } catch(NumberFormatException ex){
                                     }
