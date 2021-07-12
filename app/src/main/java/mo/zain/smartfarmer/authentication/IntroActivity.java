@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,11 +34,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
+import mo.zain.smartfarmer.CompanyActivity;
 import mo.zain.smartfarmer.MainActivity;
 import mo.zain.smartfarmer.R;
 import com.facebook.FacebookSdk;
@@ -156,6 +159,7 @@ public class IntroActivity extends AppCompatActivity {
         google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getAndStoreToken();
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
@@ -207,6 +211,7 @@ public class IntroActivity extends AppCompatActivity {
                                 hashMap.put("Mobile","");
                                 hashMap.put("id",userid);
                                 hashMap.put("imageURL",url);
+                                getAndStoreToken();
                                 reference.setValue(hashMap);
                                 Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -214,6 +219,7 @@ public class IntroActivity extends AppCompatActivity {
                                 //progressDialog.dismiss();
                                 finish();
                             }else {
+                                getAndStoreToken();
                                 Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -274,6 +280,7 @@ public class IntroActivity extends AppCompatActivity {
             DatabaseReference reference;
             String userid=user.getUid();
 
+            getAndStoreToken();
             reference= FirebaseDatabase.getInstance()
                     .getReference("User")
                     .child(userid);//.child(userid)
@@ -298,4 +305,24 @@ public class IntroActivity extends AppCompatActivity {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
+    private void getAndStoreToken(){
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAGFCM", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        String token = task.getResult();
+                        String userId = FirebaseAuth
+                                .getInstance().getCurrentUser().getUid();
+                        FirebaseDatabase.getInstance().getReference("Tokens").child(userId)
+                                .setValue(token);
+                    }
+                });
+    }
+
 }

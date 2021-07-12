@@ -24,12 +24,12 @@
             android:layout_weight="0.9">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/profileImage"
+                app:shapeAppearanceOverlay="@style/IV_Circle"
                 android:layout_width="60dp"
+                android:id="@+id/profileImage"
                 android:layout_height="match_parent"
                 android:padding="4dp"
                 app:strokeColor="@color/white"
-                app:shapeAppearanceOverlay="@style/IV_Circle"
                 android:src="@drawable/ic_profile" />
 
             <TextView

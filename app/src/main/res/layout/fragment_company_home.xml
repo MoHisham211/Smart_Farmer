@@ -31,9 +31,10 @@
                 android:layout_gravity="left"
                 android:layout_weight="0.9">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/IV_Circle"
+                    android:layout_width="60dp"
                     android:id="@+id/profileImage"
-                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:padding="4dp"
                     android:src="@drawable/ic_profile" />

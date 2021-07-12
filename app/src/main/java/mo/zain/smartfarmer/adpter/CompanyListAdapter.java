@@ -21,6 +21,7 @@ import mo.zain.smartfarmer.R;
 import mo.zain.smartfarmer.model.CompanyModel;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.MyViewHolder> {
 
@@ -75,7 +76,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        CircleImageView companyImage;
+        ShapeableImageView companyImage;
         TextView compamyName;
 
         public MyViewHolder(@NonNull @NotNull View itemView) {

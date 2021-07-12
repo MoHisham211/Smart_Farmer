@@ -44,7 +44,7 @@
             android:layout_margin="8dp"
             android:background="@drawable/bg_button_more_details"
             android:backgroundTint="#4CAF50"
-            android:text="Price: 3$"
+            android:text="Price: 3"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

@@ -44,7 +44,7 @@ public class ControlFragment extends Fragment {
         myBluetooth=BluetoothAdapter.getDefaultAdapter();
         if (myBluetooth==null){
             FancyToast.makeText(getContext(),"Bluetooth Adapter Not Available",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
-            getActivity().finish();
+            //getActivity().finish();
         }else if (!myBluetooth.isEnabled())
         {
             Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

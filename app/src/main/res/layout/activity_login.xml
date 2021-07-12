@@ -164,7 +164,7 @@
             android:textColorLink="@color/white"
             android:fontFamily="@font/ubuntu_regular"
             android:onClick="onRadioButtonClicked"
-            android:text="Sign Up as a Company" />
+            android:text="Sign In as a Company" />
 
     </RadioGroup>
 

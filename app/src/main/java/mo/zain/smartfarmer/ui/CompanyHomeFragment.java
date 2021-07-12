@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -61,7 +62,7 @@ import mo.zain.smartfarmer.model.Comment;
 import mo.zain.smartfarmer.model.Post;
 
 public class CompanyHomeFragment extends Fragment {
-    CircleImageView profileImage;
+    ShapeableImageView profileImage;
     ImageView addPost;
     TextView profileName;
     FirebaseUser firebaseUser;
@@ -121,7 +122,7 @@ public class CompanyHomeFragment extends Fragment {
         toProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.profileFragment);
+                Navigation.findNavController(v).navigate(R.id.companyProfileFragment);
             }
         });
         addPost.setOnClickListener(new View.OnClickListener() {

@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -76,7 +77,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        CircleImageView companyImage;
+        ShapeableImageView companyImage;
         TextView compamyName;
 
         public MyViewHolder(@NonNull @NotNull View itemView) {

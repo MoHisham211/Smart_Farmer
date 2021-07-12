@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +43,7 @@ public class OtherCompanyFragment extends Fragment {
     RecyclerView recyclerView;
     FirebaseAuth firebaseAuth;
     String name,email,phone,imageProfile;
-    CircleImageView profileImage;
+    ShapeableImageView profileImage;
     TextView profileName;
     DatabaseReference df;
     @Override
@@ -74,10 +75,14 @@ public class OtherCompanyFragment extends Fragment {
                 Map<String, String> map = (Map) snapshot.getValue();
 
                 profileName.setText(map.get("companyname"));
-                if (!map.get("imageURL").equals(""))
-                    Glide.with(getContext()).load(map.get("imageURL")).into(profileImage);
-                else
-                    Glide.with(getContext()).load(R.drawable.ic_profile).into(profileImage);
+                try {
+                    if (!map.get("imageURL").equals(""))
+                        Glide.with(getContext()).load(map.get("imageURL")).into(profileImage);
+                    else
+                        Glide.with(getContext()).load(R.drawable.ic_profile).into(profileImage);
+                }catch (Exception e){
+
+                }
                 email=map.get("email");
                 name=map.get("companyname");
                 phone=map.get("phone");

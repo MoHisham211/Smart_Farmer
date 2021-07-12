@@ -13,15 +13,6 @@
         android:id="@+id/controlFragment"
         android:name="mo.zain.smartfarmer.ui.control.ControlFragment"
         android:label="ControlFragment" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="mo.zain.smartfarmer.ui.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_profileFragment_to_companyHomeFragment"
-            app:destination="@id/companyHomeFragment" />
-    </fragment>
 
     <fragment
         android:id="@+id/commentFragment"
@@ -78,5 +69,17 @@
             app:popUpToInclusive="true"
             android:id="@+id/action_chatToUserFragment_to_otherCompanyFragment"
             app:destination="@id/otherCompanyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyProfileFragment"
+        android:name="mo.zain.smartfarmer.ui.CompanyProfileFragment"
+        android:label="fragment_company_profile"
+        tools:layout="@layout/fragment_company_profile" >
+        <action
+            app:launchSingleTop="true"
+            app:popExitAnim="@+id/otherCompanyFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_companyProfileFragment_to_companyHomeFragment"
+            app:destination="@id/companyHomeFragment" />
     </fragment>
 </navigation>

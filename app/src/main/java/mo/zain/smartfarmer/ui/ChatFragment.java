@@ -8,6 +8,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,12 +31,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.zain.smartfarmer.R;
@@ -47,9 +65,11 @@ public class ChatFragment extends Fragment {
     String id,hisImage;
     EditText editTextTextPersonName;
     RecyclerView recyclerView;
-    List<ChatModel> chatModels=new ArrayList<>();;
+    List<ChatModel> chatModels=new ArrayList<>();
     ChatAdapter adapterChat;
     ImageView back,circleImageView;
+    private static final String AUTH_KEY = "key=AAAAlhHeGaw:APA91bEPgudJTgV0dPB8bEZmVcXdvhbEtH5d0KBlY0pDsJ1rm2Ue-nl1SkgnWgKeFt0SIzLY6zLpGXvXsXx2lpsQ5QAlg6kCUsOqhgxYDF-OXgSfRevcXUFsiY44gJiuasJZnh4n--3s";
+    String token;
 
 
     @Override
@@ -104,8 +124,20 @@ public class ChatFragment extends Fragment {
         hashMap.put("message",message);
         hashMap.put("timestamp",timestamp);
         hashMap.put("isSeen",false);
+        hashMap.put("receiverToken",token);
 
-        databaseReference.child("Chats").push().setValue(hashMap);
+        databaseReference.child("Chats").push()
+                .setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pushNotification("tokens",message,token);
+                    }
+                }).start();
+            }
+        });
 
         String msg=message;
 
@@ -124,12 +156,25 @@ public class ChatFragment extends Fragment {
 
                 Name.setText(map.get("companyname"));
                 if (!map.get("imageURL").equals(""))
-                    Glide.with(getContext()).load(map.get("imageURL")).into(profile);
+                    try {
+                        Glide.with(getContext()).load(map.get("imageURL")).into(profile);
+
+                    }catch (Exception e)
+                    {
+
+                    }
                 else
-                    Glide.with(getContext()).load(R.drawable.ic_profile).into(profile);
+                    try {
+                        Glide.with(getContext()).load(R.drawable.ic_profile).into(profile);
+
+                    }catch (Exception e)
+                    {
+
+                    }
 
                 hisImage=map.get("imageURL") ;
                 status.setText(map.get("onlineStatus"));
+                getAndStoreToken();
             }
 
             @Override
@@ -190,4 +235,94 @@ public class ChatFragment extends Fragment {
         super.onStop();
         checkOnlineStatus("offline");
     }
+    private void pushNotification(String type,String msg,String tokenAgain) {
+
+        JSONObject jPayload = new JSONObject();
+        JSONObject jNotification = new JSONObject();
+        JSONObject jData = new JSONObject();
+        try {
+            jNotification.put("title", "New Message");
+            jNotification.put("body", msg);
+            jNotification.put("sound", "default");
+            jNotification.put("badge", "1");
+            jNotification.put("click_action", "OPEN_ACTIVITY_1");
+            jNotification.put("icon", "ic_notification");
+            jNotification.put("icon", R.drawable.ic_plant_login);
+
+            jData.put("picture", R.drawable.ic_plant_login);
+
+            switch(type) {
+                case "tokens":
+                    JSONArray ja = new JSONArray();
+                    ja.put(tokenAgain);
+                    //ja.put("eeLl305CQtmpp_7sWccgTy:APA91bHekOjRFRg14jQZdvs2liGFfX1_1HbWNpdz1rz51fgEwUhtEtlTb-nAG3GXxYXexib-iHytGpoVv8GXKsesz1KTjS_9yGpC-mpvZNeaxIxVkjDXoYf5-jG8Hev8_fUhASgybJ6M");
+                    jPayload.put("registration_ids", ja);
+                    break;
+            }
+
+            jPayload.put("priority", "high");
+            jPayload.put("notification", jNotification);
+            jPayload.put("data", jData);
+
+            URL url = new URL("https://fcm.googleapis.com/fcm/send");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", AUTH_KEY);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            // Send FCM message content.
+            OutputStream outputStream = conn.getOutputStream();
+            outputStream.write(jPayload.toString().getBytes());
+
+            // Read FCM response.
+            InputStream inputStream = conn.getInputStream();
+            final String resp = convertStreamToString(inputStream);
+
+            Handler h = new Handler(Looper.getMainLooper());
+            h.post(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i("A7A",resp+" A7a "+AUTH_KEY);
+                    // mTextView.setText(resp);
+                }
+            });
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private String convertStreamToString(InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next().replace(",", ",\n") : "";
+    }
+    private void getAndStoreToken(){
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            //Log.w("TAGFCM", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        token = task.getResult();
+                        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        FirebaseDatabase.
+                                        getInstance().getReference("Tokens")
+                                        .child(id)
+                                        .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                                if (task.isSuccessful())
+                                {
+                                    token= String.valueOf(task.getResult().getValue());
+                                    //Toast.makeText(getContext(), ""+token, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+    }
+
 }

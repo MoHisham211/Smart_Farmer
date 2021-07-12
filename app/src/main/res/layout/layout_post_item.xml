@@ -22,7 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9">
-                <de.hdodenhof.circleimageview.CircleImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/IV_Circle"
                     android:id="@+id/postProfile"
                     android:layout_width="50dp"
                     android:layout_height="50dp"

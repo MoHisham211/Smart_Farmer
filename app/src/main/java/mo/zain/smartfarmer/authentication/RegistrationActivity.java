@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.HashMap;
@@ -165,6 +167,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 hashMap.put("username",UserName);
                                 hashMap.put("phone",Phone);
                                 hashMap.put("imageURL","");
+                                getAndStoreToken();
                                 reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -198,6 +201,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 hashMap.put("phone",Phone);
                                 hashMap.put("onlineStatus","online");
                                 hashMap.put("city",City);
+                                getAndStoreToken();
                                 hashMap.put("imageURL","");
                                 reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -223,4 +227,23 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 });
     }
+    private void getAndStoreToken(){
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAGFCM", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        String token = task.getResult();
+                        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        FirebaseDatabase.getInstance().getReference("Tokens").child(userId)
+                                .setValue(token);
+                    }
+                });
+    }
+
 }

@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
+            app:shapeAppearanceOverlay="@style/IV_Circle"
+            android:layout_width="60dp"
             android:id="@+id/companyImage"
-            android:layout_width="59dp"
             android:src="@drawable/ic_profile"
             android:layout_height="59dp"/>
 

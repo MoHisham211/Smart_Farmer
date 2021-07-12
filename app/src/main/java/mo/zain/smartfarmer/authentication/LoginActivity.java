@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
@@ -194,12 +196,14 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         if (WHO_REGISTER.equals("User")) {
+                                            getAndStoreToken();
                                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                             progressDialog.dismiss();
                                             finish();
                                         } else if (WHO_REGISTER.equals("Company")) {
+                                            getAndStoreToken();
                                             Intent intent = new Intent(getApplicationContext(), CompanyActivity.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
@@ -251,6 +255,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                                 DatabaseReference reference;
                                 assert user != null;
+                                getAndStoreToken();
                                 String email = user.getEmail();
                                 String userid = user.getUid();
                                 String userName = user.getDisplayName();
@@ -420,4 +425,23 @@ public class LoginActivity extends AppCompatActivity {
                 return;
         }
     }
+    private void getAndStoreToken(){
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAGFCM", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        String token = task.getResult();
+                        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        FirebaseDatabase.getInstance().getReference("Tokens").child(userId)
+                                .setValue(token);
+                    }
+                });
+    }
+
 }

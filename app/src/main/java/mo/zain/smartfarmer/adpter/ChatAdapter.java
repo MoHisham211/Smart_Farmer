@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -164,10 +165,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyHolder> {
                     if (ds.child("sender").getValue().equals(myUID))
                     {
                         ds.getRef().removeValue();
-                        Toast.makeText(context, "Message deleted...", Toast.LENGTH_SHORT).show();
-                    }else {
+                        FancyToast.makeText(context,"Message deleted",FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
 
-                        Toast.makeText(context, "You can delete only your message...", Toast.LENGTH_SHORT).show();
+                    }else {
+                        FancyToast.makeText(context, "You can delete only your message",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                     }
                 }
             }
