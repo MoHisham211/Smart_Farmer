@@ -163,11 +163,17 @@ public class ProfileFragment extends Fragment {
                 userNameEt.setText(map.get("UserName"));
                 emailEt.setText(map.get("Email"));
                 mobileEt.setText(map.get("Mobile"));
-                if (!map.get("imageURL").equals(""))
-                    Glide.with(getContext()).
-                            load(map.get("imageURL")).into(circleImageView);
-                else
-                    Glide.with(getContext()).load(R.drawable.ic_profile).into(circleImageView);
+                try {
+                    if (!map.get("imageURL").equals(""))
+                        Glide.with(getContext()).
+                                load(map.get("imageURL")).into(circleImageView);
+                    else
+                        Glide.with(getContext()).load(R.drawable.ic_profile).into(circleImageView);
+                }catch (Exception e)
+                {
+
+                }
+
                 email=map.get("Email");
                 name=map.get("UserName");
                 phone=map.get("Mobile");

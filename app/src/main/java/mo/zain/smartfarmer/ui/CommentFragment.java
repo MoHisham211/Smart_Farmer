@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -60,7 +61,7 @@ public class CommentFragment extends Fragment {
     String myUid,myEmail,myName,myDp
             ,postID,pLike,hisDp,hisName,pcommentCount;
     private ImageView postImage;
-    CircleImageView userPost;
+    ShapeableImageView userPost;
     TextView namePost,title,description,plikes,time;
     TextView love,share;
     //
@@ -319,14 +320,19 @@ public class CommentFragment extends Fragment {
 
                         namePost.setText(post.getName());
                         time.setText(post.getTime());
-                        if (!post.getUserImage().equals(""))
-                        Glide.with(getContext())
-                                .load(post.getUserImage())
-                                .into(userPost);
-                        else
-                            Glide.with(getContext())
-                            .load(R.drawable.ic_profile)
-                            .into(userPost);
+                        try {
+                            if (!post.getUserImage().equals(""))
+                                Glide.with(getContext())
+                                        .load(post.getUserImage())
+                                        .into(userPost);
+                            else
+                                Glide.with(getContext())
+                                        .load(R.drawable.ic_profile)
+                                        .into(userPost);
+                        }catch (Exception e)
+                        {
+
+                        }
 
                         try {
                             Glide.with(getContext())

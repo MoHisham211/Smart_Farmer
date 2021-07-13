@@ -73,10 +73,16 @@ public class CompanyFragment extends Fragment {
                 Map<String, String> map = (Map) snapshot.getValue();
 
                 profileName.setText(map.get("UserName"));
-                if (!map.get("imageURL").equals(""))
-                    Glide.with(getContext()).load(map.get("imageURL")).into(profileImage);
-                else
-                    Glide.with(getContext()).load(R.drawable.ic_profile).into(profileImage);
+                try {
+                    if (!map.get("imageURL").equals(""))
+                        Glide.with(getContext()).load(map.get("imageURL")).into(profileImage);
+                    else
+                        Glide.with(getContext()).load(R.drawable.ic_profile).into(profileImage);
+                }catch (Exception e)
+                {
+
+                }
+
                 email=map.get("Email");
                 name=map.get("UserName");
                 phone=map.get("Mobile");

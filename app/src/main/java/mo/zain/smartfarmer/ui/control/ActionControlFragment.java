@@ -239,7 +239,12 @@ public class ActionControlFragment extends Fragment {
 
                                 }
                                 else { // If there is no # add bytes to buffer
-                                    generalBuffer[generalBufferPosition++] = b;
+                                    //Added without test
+                                    try {
+                                        generalBuffer[generalBufferPosition++] = b;
+                                    }catch (Exception e){
+
+                                    }
                                 }
                             }
                         }
@@ -359,7 +364,13 @@ public class ActionControlFragment extends Fragment {
                                     });
                                 }
                                 else { // If there is no # add bytes to buffer
-                                    generalBuffer[generalBufferPosition++] = b;
+                                    //again
+                                    try {
+                                        generalBuffer[generalBufferPosition++] = b;
+                                    }catch (Exception e)
+                                    {
+
+                                    }
                                 }
                             }
                         }
